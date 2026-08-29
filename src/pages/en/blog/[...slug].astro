@@ -1,0 +1,17 @@
+---
+// English blog posts, served at /en/blog/<slug>/.
+import { getCollection } from 'astro:content';
+import BlogPost from '../../../layouts/BlogPost.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ id, data }) => id.startsWith('en/') && !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id.split('/').slice(1).join('/') },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<BlogPost lang="en" post={post} />

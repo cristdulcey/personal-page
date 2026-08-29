@@ -30,6 +30,22 @@ export const profile = {
   },
 };
 
+// Visual header of each project card, keyed by the project's `key`.
+// `image` (a path under public/, e.g. 'projects/chivo.jpg') takes
+// precedence when present; otherwise a branded gradient banner with the
+// emblem is rendered.
+export type ProjectKey = 'chivo' | 'fenix' | 'walletguru' | 'maddroids';
+
+export const projectMedia: Record<
+  ProjectKey,
+  { from: string; to: string; emblem: string; image?: string }
+> = {
+  chivo: { from: '#e2231a', to: '#7f1010', emblem: '₿' },
+  fenix: { from: '#f59e0b', to: '#b91c1c', emblem: '🔥' },
+  walletguru: { from: '#14b8a6', to: '#065f46', emblem: '🌐' },
+  maddroids: { from: '#8247e5', to: '#341478', emblem: '🤖' },
+};
+
 export const translations = {
   es: {
     meta: {
@@ -40,8 +56,15 @@ export const translations = {
       work: 'Qué hago',
       projects: 'Proyectos',
       content: 'Contenido',
+      blog: 'Blog',
       contact: 'Contacto',
       langLabel: 'Idioma',
+    },
+    blog: {
+      title: 'Blog',
+      intro: 'Notas y artículos sobre desarrollo de software, DevOps y tecnología.',
+      empty: 'Todavía no hay artículos publicados. ¡Pronto!',
+      back: 'Volver al blog',
     },
     hero: {
       kicker: 'Hola, soy',
@@ -92,24 +115,35 @@ export const translations = {
     },
     projects: {
       title: 'Proyectos',
+      intro: 'Algunos de los proyectos de los que he hecho parte:',
       items: [
         {
-          title: 'Proyecto uno',
-          desc: 'Describe aquí tu proyecto destacado: qué problema resuelve, con qué tecnología lo construiste y qué lo hace especial.',
-          tags: ['Python', 'DevOps'],
-          url: '#',
+          key: 'chivo' as const,
+          title: 'Chivo Wallet',
+          desc: 'Billetera virtual del gobierno de El Salvador, la primera en el mundo en implementar Bitcoin como moneda de curso legal (2021). Tuve la oportunidad de ser parte de este proyecto.',
+          tags: ['Bitcoin', 'Fintech', 'Billetera'],
+          url: 'https://www.chivowallet.com',
         },
         {
-          title: 'Proyecto dos',
-          desc: 'Otro proyecto del que te sientas orgulloso. Puedes enlazar al repositorio o a la demo en vivo.',
-          tags: ['Vue', 'Web3'],
-          url: '#',
+          key: 'fenix' as const,
+          title: 'Proyecto Fénix',
+          desc: 'Plataforma de la Secretaría de Movilidad de Bogotá. Participé en todo el despliegue y la administración de la infraestructura del proyecto.',
+          tags: ['DevOps', 'Infraestructura', 'Gobierno'],
+          url: 'https://webfenix.movilidadbogota.gov.co',
         },
         {
-          title: 'Proyecto tres',
-          desc: 'Añade o quita tarjetas según necesites: son objetos en un arreglo en src/i18n.ts.',
-          tags: ['Swift', 'Android'],
-          url: '#',
+          key: 'walletguru' as const,
+          title: 'Wallet Guru',
+          desc: 'Una de las primeras billeteras en integrar Open Payments, el protocolo desarrollado por la Interledger Foundation con su proyecto Rafiki.',
+          tags: ['Open Payments', 'Interledger', 'Billetera'],
+          url: 'https://www.walletguru.com',
+        },
+        {
+          key: 'maddroids' as const,
+          title: 'Mad Droids',
+          desc: 'Videojuego con personajes tokenizados como NFT sobre la red de Polygon (MATIC). Hice parte del desarrollo del juego.',
+          tags: ['NFT', 'Polygon', 'Videojuego'],
+          url: 'https://www.instagram.com/maddroids/',
         },
       ],
     },
@@ -178,8 +212,15 @@ export const translations = {
       work: 'What I do',
       projects: 'Projects',
       content: 'Content',
+      blog: 'Blog',
       contact: 'Contact',
       langLabel: 'Language',
+    },
+    blog: {
+      title: 'Blog',
+      intro: 'Notes and articles about software development, DevOps and technology.',
+      empty: 'No posts published yet. Coming soon!',
+      back: 'Back to the blog',
     },
     hero: {
       kicker: "Hi, I'm",
@@ -230,24 +271,35 @@ export const translations = {
     },
     projects: {
       title: 'Projects',
+      intro: 'Some of the projects I have been part of:',
       items: [
         {
-          title: 'Project one',
-          desc: 'Describe your featured project here: what problem it solves, the technology behind it and what makes it special.',
-          tags: ['Python', 'DevOps'],
-          url: '#',
+          key: 'chivo' as const,
+          title: 'Chivo Wallet',
+          desc: 'Virtual wallet of the government of El Salvador, the first in the world to implement Bitcoin as legal tender (2021). I had the opportunity to be part of this project.',
+          tags: ['Bitcoin', 'Fintech', 'Wallet'],
+          url: 'https://www.chivowallet.com',
         },
         {
-          title: 'Project two',
-          desc: 'Another project you are proud of. You can link to the repository or a live demo.',
-          tags: ['Vue', 'Web3'],
-          url: '#',
+          key: 'fenix' as const,
+          title: 'Fénix Project',
+          desc: "Platform for Bogotá's Secretariat of Mobility. I worked on the entire deployment and infrastructure administration of the project.",
+          tags: ['DevOps', 'Infrastructure', 'Government'],
+          url: 'https://webfenix.movilidadbogota.gov.co',
         },
         {
-          title: 'Project three',
-          desc: 'Add or remove cards as needed: they are objects in an array in src/i18n.ts.',
-          tags: ['Swift', 'Android'],
-          url: '#',
+          key: 'walletguru' as const,
+          title: 'Wallet Guru',
+          desc: 'One of the first wallets to integrate Open Payments, the protocol developed by the Interledger Foundation with its Rafiki project.',
+          tags: ['Open Payments', 'Interledger', 'Wallet'],
+          url: 'https://www.walletguru.com',
+        },
+        {
+          key: 'maddroids' as const,
+          title: 'Mad Droids',
+          desc: 'Video game with characters tokenised as NFTs on the Polygon (MATIC) network. I was part of the game development.',
+          tags: ['NFT', 'Polygon', 'Video game'],
+          url: 'https://www.instagram.com/maddroids/',
         },
       ],
     },
