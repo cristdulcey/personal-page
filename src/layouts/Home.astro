@@ -74,7 +74,7 @@ const photoUrl = `${base}${profile.photo}`;
   <section id="projects" class="section">
     <h2 class="reveal"><span class="section-num">02</span> {t.projects.title}</h2>
     <p class="section-intro reveal">{t.projects.intro}</p>
-    <div class="cards">
+    <div class="cards-scroll">
       {
         t.projects.items.map((p, i) => {
           const media = projectMedia[p.key];

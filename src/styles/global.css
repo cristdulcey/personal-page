@@ -968,3 +968,34 @@ footer {
   letter-spacing: -0.04em;
   user-select: none;
 }
+
+/* Horizontally scrolling card row (projects) with scroll snapping */
+.cards-scroll {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(340px, 80vw);
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 0.75rem 0.25rem 1.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-1) rgba(255, 255, 255, 0.06);
+}
+
+.cards-scroll .card {
+  scroll-snap-align: start;
+}
+
+.cards-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.cards-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+
+.cards-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  border-radius: 999px;
+}
