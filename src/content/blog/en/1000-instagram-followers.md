@@ -27,13 +27,13 @@ These are the most honest lessons I am taking with me so far:
 
 ## Behind the scenes: how I make the reels
 
-The whole process lives on a board that shows me which stage every video is in, like a development pipeline. Every idea that comes to me — on the street, while coding, in a conversation — becomes an item, and from there it moves forward:
+The whole process lives on a board that shows me which stage every video is in, like a development pipeline. Every idea becomes an item, and from there it moves forward:
 
-1. **Idea.** The board starts with every idea captured; none of them gets lost.
-2. **Script.** I write down the main points of what I am going to say, without overproducing it.
+1. **Idea.** They come from my day-to-day as a programmer: things I have solved over these months and challenges I am asked to solve at work. Every one gets captured on the board; none of them gets lost.
+2. **Script.** I generally like working with a script: I write down the main points of what I am going to say, without overproducing it.
 3. **Validation.** Lately I review it with my editor: together we validate that the video really delivers what we want to communicate, before recording anything.
-4. **Recording.** With a clear script, recording is the fastest part.
-5. **Editing and review.** The edited video comes back to me for a final check.
+4. **Recording.** I record with a Sony ZV-E10 camera and DJI Mic Mini microphones. With a clear script, this is the fastest part.
+5. **Editing and review.** Part of the animations are generated automatically, and the edited video comes back to me for a final check.
 6. **Scheduling and publishing.** Here comes my favourite part: the video goes through a program we built ourselves, which schedules the content and uploads it automatically to every platform we want. The item moves to "published" and the board is ready for the next one.
 
 Yes: I ended up building a pipeline with automated deployment for my reels. Occupational hazard.

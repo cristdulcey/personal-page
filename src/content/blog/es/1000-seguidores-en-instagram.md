@@ -27,13 +27,13 @@ Estos son los aprendizajes más honestos que me llevo hasta ahora:
 
 ## Detrás de cámaras: cómo hago los reels
 
-Todo el proceso vive en un tablero que me muestra en qué etapa va cada video, como un pipeline de desarrollo. Cada idea que me llega — en la calle, programando, en una conversación — la creo como un ítem, y de ahí va avanzando:
+Todo el proceso vive en un tablero que me muestra en qué etapa va cada video, como un pipeline de desarrollo. Cada idea la creo como un ítem, y de ahí va avanzando:
 
-1. **Idea.** El tablero arranca con todas las ideas capturadas; ninguna se pierde.
-2. **Guion.** Escribo las ideas principales de lo que voy a decir, sin sobreproducirlo.
+1. **Idea.** Salen de mi día a día como programador: cosas que he solucionado en estos meses y retos que me piden resolver en el trabajo. Todas quedan capturadas en el tablero; ninguna se pierde.
+2. **Guion.** Generalmente me gusta trabajar con guion: escribo las ideas principales de lo que voy a decir, sin sobreproducirlo.
 3. **Validación.** Últimamente lo reviso con mi editora: entre los dos validamos que el video realmente cumpla con lo que queremos informar antes de grabar nada.
-4. **Grabación.** Con el guion claro, grabar es la parte más rápida.
-5. **Edición y revisión.** El video editado vuelve a mí para validarlo.
+4. **Grabación.** Grabo con una cámara Sony ZV-E10 y micrófonos DJI Mic Mini. Con el guion claro, es la parte más rápida.
+5. **Edición y revisión.** Parte de las animaciones las generamos de forma automatizada, y el video editado vuelve a mí para validarlo.
 6. **Programación y publicación.** Aquí viene mi parte favorita: el video pasa por un programa que construimos nosotros mismos, que programa el contenido y lo sube automáticamente a todas las plataformas que queremos. El ítem pasa a «publicado» y el tablero queda listo para el siguiente.
 
 Sí: terminé montándole un pipeline con despliegue automatizado a los reels. Deformación profesional.
