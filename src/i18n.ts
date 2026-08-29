@@ -34,7 +34,7 @@ export const profile = {
 // `image` (a path under public/, e.g. 'projects/chivo.jpg') takes
 // precedence when present; otherwise a branded gradient banner with the
 // emblem is rendered.
-export type ProjectKey = 'chivo' | 'fenix' | 'walletguru';
+export type ProjectKey = 'chivo' | 'fenix' | 'walletguru' | 'maddroids';
 
 export const projectMedia: Record<
   ProjectKey,
@@ -43,6 +43,7 @@ export const projectMedia: Record<
   chivo: { from: '#e2231a', to: '#7f1010', emblem: '₿' },
   fenix: { from: '#f59e0b', to: '#b91c1c', emblem: '🔥' },
   walletguru: { from: '#14b8a6', to: '#065f46', emblem: '🌐' },
+  maddroids: { from: '#8247e5', to: '#341478', emblem: '🤖' },
 };
 
 export const translations = {
@@ -136,6 +137,13 @@ export const translations = {
           desc: 'Una de las primeras billeteras en integrar Open Payments, el protocolo desarrollado por la Interledger Foundation con su proyecto Rafiki.',
           tags: ['Open Payments', 'Interledger', 'Billetera'],
           url: 'https://www.walletguru.com',
+        },
+        {
+          key: 'maddroids' as const,
+          title: 'Mad Droids',
+          desc: 'Videojuego con personajes tokenizados como NFT sobre la red de Polygon (MATIC). Hice parte del desarrollo del juego.',
+          tags: ['NFT', 'Polygon', 'Videojuego'],
+          url: 'https://www.instagram.com/maddroids/',
         },
       ],
     },
@@ -285,6 +293,13 @@ export const translations = {
           desc: 'One of the first wallets to integrate Open Payments, the protocol developed by the Interledger Foundation with its Rafiki project.',
           tags: ['Open Payments', 'Interledger', 'Wallet'],
           url: 'https://www.walletguru.com',
+        },
+        {
+          key: 'maddroids' as const,
+          title: 'Mad Droids',
+          desc: 'Video game with characters tokenised as NFTs on the Polygon (MATIC) network. I was part of the game development.',
+          tags: ['NFT', 'Polygon', 'Video game'],
+          url: 'https://www.instagram.com/maddroids/',
         },
       ],
     },
