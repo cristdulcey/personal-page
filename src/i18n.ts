@@ -17,7 +17,6 @@ export const profile = {
     { name: 'TikTok', url: 'https://www.tiktok.com/@cristdulcey', icon: 'tiktok' },
     { name: 'X', url: 'https://twitter.com/cristdulcey', icon: 'x' },
     { name: 'Instagram', url: 'https://www.instagram.com/cristdulcey/', icon: 'instagram' },
-    { name: 'Medium', url: 'https://medium.com/@cristdulcey', icon: 'medium' },
   ],
   supportLinks: {
     coffee: 'https://bmc.link/cristdulcey',
@@ -28,7 +27,6 @@ export const profile = {
     youtube: 'https://www.youtube.com/@cristdulcey',
     tiktok: 'https://www.tiktok.com/@cristdulcey',
     instagram: 'https://www.instagram.com/cristdulcey/',
-    medium: 'https://medium.com/@cristdulcey',
     github: 'https://github.com/cristdulcey',
   },
 };
@@ -182,12 +180,12 @@ export const translations = {
           linkKey: 'instagram' as const,
         },
         {
-          name: 'Medium',
-          desc: 'Artículos técnicos y tutoriales sobre lo que voy aprendiendo.',
-          action: 'Leer artículos',
-          icon: 'medium',
-          glow: 'rgba(2, 184, 117, 0.35)',
-          linkKey: 'medium' as const,
+          name: 'Blog',
+          desc: 'Artículos técnicos y tutoriales, publicados aquí mismo, en mi propio blog.',
+          action: 'Leer el blog',
+          icon: 'blog',
+          glow: 'rgba(6, 182, 212, 0.35)',
+          linkKey: 'blog' as const,
         },
         {
           name: 'GitHub',
@@ -202,7 +200,7 @@ export const translations = {
     about: {
       title: 'Sobre mí',
       p1: 'Trabajo en productos digitales de principio a fin: infraestructura, backend, web y móvil. Me gusta automatizar todo lo que se pueda automatizar y aprender en público.',
-      p2: 'Publico videos en YouTube y artículos técnicos en Medium sobre desarrollo de software, DevOps y tecnología.',
+      p2: 'Publico videos en YouTube, reels y contenido corto en redes sociales, y artículos técnicos en el blog de este sitio.',
       skillsTitle: 'Tecnologías',
       skills: [
         'Python',
@@ -357,12 +355,12 @@ export const translations = {
           linkKey: 'instagram' as const,
         },
         {
-          name: 'Medium',
-          desc: 'Technical articles and tutorials about what I learn along the way.',
-          action: 'Read the articles',
-          icon: 'medium',
-          glow: 'rgba(2, 184, 117, 0.35)',
-          linkKey: 'medium' as const,
+          name: 'Blog',
+          desc: 'Technical articles and tutorials, published right here on my own blog.',
+          action: 'Read the blog',
+          icon: 'blog',
+          glow: 'rgba(6, 182, 212, 0.35)',
+          linkKey: 'blog' as const,
         },
         {
           name: 'GitHub',
@@ -377,7 +375,7 @@ export const translations = {
     about: {
       title: 'About me',
       p1: 'I work on digital products end to end: infrastructure, backend, web and mobile. I like automating everything that can be automated, and learning in public.',
-      p2: 'I publish videos on YouTube and technical articles on Medium about software development, DevOps and technology.',
+      p2: "I publish videos on YouTube, reels and short-form content on social media, and technical articles on this site's blog.",
       skillsTitle: 'Technologies',
       skills: [
         'Python',

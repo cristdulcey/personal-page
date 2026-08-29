@@ -17,6 +17,7 @@ const base = import.meta.env.BASE_URL.endsWith('/')
   : `${import.meta.env.BASE_URL}/`;
 
 const photoUrl = `${base}${profile.photo}`;
+const blogUrl = `${base}${lang === 'en' ? 'en/' : ''}blog/`;
 ---
 
 <Base
@@ -159,9 +160,9 @@ const photoUrl = `${base}${profile.photo}`;
         t.content.cards.map((c, i) => (
           <a
             class="card content-card reveal-zoom"
-            href={profile.contentLinks[c.linkKey]}
-            target="_blank"
-            rel="noopener"
+            href={c.linkKey === 'blog' ? blogUrl : profile.contentLinks[c.linkKey]}
+            target={c.linkKey === 'blog' ? undefined : '_blank'}
+            rel={c.linkKey === 'blog' ? undefined : 'noopener'}
             style={`--delay: ${i * 90}ms; --glow: ${c.glow}`}
           >
             <span class="content-icon">
