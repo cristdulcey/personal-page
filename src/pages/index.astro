@@ -188,17 +188,18 @@ const habilidades = [
           Además de escribir código, creo contenido para compartir lo que aprendo.
           Estas son las áreas en las que trabajo:
         </p>
-        <div class="servicios">
+        <ol class="areas">
           {
             servicios.map((s, i) => (
-              <article class="servicio reveal" style={`--delay: ${i * 90}ms`}>
-                <span class="servicio-icono" aria-hidden="true">{s.icono}</span>
-                <h3>{s.titulo}</h3>
-                <p>{s.desc}</p>
-              </article>
+              <li class="area reveal" style={`--delay: ${i * 80}ms`}>
+                <span class="area-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="area-titulo">{s.titulo}</h3>
+                <p class="area-desc">{s.desc}</p>
+                <span class="area-icono" aria-hidden="true">{s.icono}</span>
+              </li>
             ))
           }
-        </div>
+        </ol>
       </section>
 
       <section id="proyectos" class="section">
@@ -679,55 +680,92 @@ const habilidades = [
         margin-top: 2.5rem;
       }
 
-      /* Tarjetas de servicios (Qué hago) */
-      .servicios {
+      /* Lista de áreas (Qué hago): filas grandes tipo editorial */
+      .areas {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border-top: 1px solid var(--border);
+      }
+
+      .area {
+        position: relative;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: 3.5rem 1.1fr 1.4fr 3.5rem;
+        align-items: center;
         gap: 1.5rem;
+        padding: 1.9rem 1rem;
+        border-bottom: 1px solid var(--border);
+        transition: background 0.3s, padding 0.3s;
       }
 
-      .servicio {
-        padding: 1.75rem;
-        border-radius: var(--radius);
-        border: 1px solid var(--border);
-        background: var(--surface);
-        box-shadow: var(--sombra-suave);
-        transition: transform 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
+      /* Resplandor lateral que se enciende al pasar el cursor */
+      .area::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, var(--accent-1), var(--accent-2));
+        opacity: 0;
+        transition: opacity 0.3s;
       }
 
-      .servicio:hover {
-        transform: translateY(-6px);
-        border-color: rgba(124, 58, 237, 0.55);
-        background: rgba(255, 255, 255, 0.06);
-        box-shadow: 0 18px 50px rgba(124, 58, 237, 0.28), 0 4px 14px rgba(0, 0, 0, 0.5);
+      .area:hover {
+        background: linear-gradient(
+          90deg,
+          rgba(124, 58, 237, 0.1),
+          rgba(6, 182, 212, 0.04) 60%,
+          transparent
+        );
+        padding-left: 1.6rem;
       }
 
-      .servicio-icono {
-        display: grid;
-        place-items: center;
-        width: 54px;
-        height: 54px;
-        font-size: 1.6rem;
-        border-radius: 14px;
-        background: linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(6, 182, 212, 0.2));
-        border: 1px solid rgba(124, 58, 237, 0.35);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 8px 24px rgba(124, 58, 237, 0.2);
-        margin-bottom: 1.1rem;
-        transition: transform 0.25s;
+      .area:hover::before {
+        opacity: 1;
       }
 
-      .servicio:hover .servicio-icono {
-        transform: scale(1.12) rotate(-4deg);
+      .area-num {
+        color: var(--accent-2);
+        font-weight: 700;
+        font-size: 0.9rem;
+        font-variant-numeric: tabular-nums;
+        opacity: 0.8;
       }
 
-      .servicio h3 {
-        font-size: 1.1rem;
-        margin-bottom: 0.5rem;
+      .area-titulo {
+        font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        transition: color 0.3s;
       }
 
-      .servicio p {
+      .area:hover .area-titulo {
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .area-desc {
         color: var(--text-dim);
-        font-size: 0.95rem;
+        font-size: 0.98rem;
+        margin: 0;
+      }
+
+      .area-icono {
+        font-size: 1.7rem;
+        justify-self: end;
+        filter: grayscale(1) opacity(0.45);
+        transform: scale(0.9);
+        transition: filter 0.3s, transform 0.3s;
+      }
+
+      .area:hover .area-icono {
+        filter: none;
+        transform: scale(1.15) rotate(-6deg);
       }
 
       .sobre-grid {
@@ -903,6 +941,34 @@ const habilidades = [
         .sobre-grid {
           grid-template-columns: 1fr;
           gap: 2rem;
+        }
+        .area {
+          grid-template-columns: 2.5rem 1fr 2.5rem;
+          grid-template-areas:
+            'num titulo icono'
+            'num desc desc';
+          row-gap: 0.4rem;
+          column-gap: 0.75rem;
+          align-items: start;
+          text-align: left;
+          padding: 1.4rem 0.5rem;
+        }
+        .area:hover {
+          padding-left: 0.5rem;
+        }
+        .area-num {
+          grid-area: num;
+          padding-top: 0.2rem;
+        }
+        .area-titulo {
+          grid-area: titulo;
+        }
+        .area-desc {
+          grid-area: desc;
+        }
+        .area-icono {
+          grid-area: icono;
+          padding-top: 0.1rem;
         }
         .nav nav {
           padding: 0.75rem 1rem;
