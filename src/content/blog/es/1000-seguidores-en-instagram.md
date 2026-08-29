@@ -3,7 +3,6 @@ title: '¡1.000 seguidores en Instagram! Lo que aprendí creando contenido en p�
 description: 'Llegamos a los primeros 1.000 seguidores. Esto es lo que me ha enseñado dedicarle estos meses a crear contenido y llegar a más personas.'
 date: 2026-08-29
 tags: ['contenido', 'instagram', 'comunidad']
-draft: true
 ---
 
 Hoy quiero celebrar algo que me hace muy feliz: **llegamos a los primeros 1.000 seguidores en Instagram**. 🎉
@@ -14,7 +13,7 @@ Sé que en internet hay cuentas con millones de seguidores y que 1.000 puede son
 
 Llevo años construyendo productos digitales: infraestructura, backend, apps web y móviles. Pero la mayoría de lo que aprendía se quedaba conmigo o, con suerte, con mi equipo. En algún momento entendí que **compartir lo que aprendes multiplica su valor**: te obliga a entenderlo mejor, ayuda a gente que va unos pasos atrás, y te conecta con gente que va unos pasos adelante.
 
-Por eso decidí aprender en público: reels y videos cortos en Instagram y TikTok, videos en YouTube, y ahora también este blog. Desde el inicio mi intención siempre ha sido la misma: **compartir el conocimiento de lo que sé para ayudar a otros**.
+Por eso decidí dejar de guardarme lo que aprendo: ahora lo comparto en reels y videos cortos en Instagram y TikTok, videos en YouTube, y ahora también en este blog. Desde el inicio mi intención siempre ha sido la misma: **compartir el conocimiento de lo que sé para ayudar a otros**.
 
 
 ## Lo que me han enseñado estos meses

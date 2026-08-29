@@ -3,7 +3,6 @@ title: '1,000 Instagram followers! What I learned creating content in public'
 description: 'We reached our first 1,000 followers. This is what these months of creating content and reaching more people have taught me.'
 date: 2026-08-29
 tags: ['content', 'instagram', 'community']
-draft: true
 ---
 
 Today I want to celebrate something that makes me really happy: **we reached our first 1,000 followers on Instagram**. 🎉
@@ -14,7 +13,7 @@ I know there are accounts out there with millions of followers, and 1,000 might 
 
 I have spent years building digital products: infrastructure, backend, web and mobile apps. But most of what I learned stayed with me or, at best, with my team. At some point I understood that **sharing what you learn multiplies its value**: it forces you to understand it better, it helps people a few steps behind you, and it connects you with people a few steps ahead.
 
-That is why I decided to learn in public: reels and short videos on Instagram and TikTok, videos on YouTube, and now this blog too. From the very beginning my intention has always been the same: **to share what I know to help others**.
+That is why I decided to stop keeping what I learn to myself: I now share it in reels and short videos on Instagram and TikTok, videos on YouTube, and now on this blog too. From the very beginning my intention has always been the same: **to share what I know to help others**.
 
 
 ## What these months have taught me

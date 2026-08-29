@@ -3,6 +3,7 @@ title: 'Hello, world: how this blog works'
 description: 'How to write and publish posts on this site using Markdown files, without touching code.'
 date: 2026-08-29
 tags: ['meta', 'astro']
+draft: true
 ---
 
 Welcome to the blog! This is a sample post that doubles as a quick publishing guide.
