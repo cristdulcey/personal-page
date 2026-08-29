@@ -119,6 +119,8 @@ export const translations = {
     projects: {
       title: 'Proyectos',
       intro: 'Algunos de los proyectos de los que he hecho parte:',
+      prev: 'Proyectos anteriores',
+      next: 'Más proyectos',
       items: [
         {
           key: 'chivo' as const,
@@ -292,6 +294,8 @@ export const translations = {
     projects: {
       title: 'Projects',
       intro: 'Some of the projects I have been part of:',
+      prev: 'Previous projects',
+      next: 'More projects',
       items: [
         {
           key: 'chivo' as const,

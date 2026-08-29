@@ -94,19 +94,20 @@ const site = Astro.site ?? 'https://cristdulcey.com';
     </footer>
 
     <script>
-      // Reveal-on-scroll animation
+      // Reveal-on-scroll animation. The class is toggled rather than set
+      // once, so elements animate again every time they re-enter the
+      // viewport while scrolling in either direction.
       const observer = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-              observer.unobserve(entry.target);
-            }
+            entry.target.classList.toggle('visible', entry.isIntersecting);
           }
         },
-        { threshold: 0.12 }
+        { threshold: 0.12, rootMargin: '0px 0px -30px' }
       );
-      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+      document
+        .querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-zoom')
+        .forEach((el) => observer.observe(el));
     </script>
   </body>
 </html>

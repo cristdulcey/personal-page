@@ -37,10 +37,10 @@ const photoUrl = `${base}${profile.photo}`;
         <a class="btn btn-primary" href="#work">{t.hero.ctaWork}</a>
         <a class="btn btn-ghost" href="#contact">{t.hero.ctaContact}</a>
       </div>
-      <ul class="socials reveal" style="--delay: 400ms" aria-label={t.hero.socialsLabel}>
+      <ul class="socials" aria-label={t.hero.socialsLabel}>
         {
-          profile.socials.map((s) => (
-            <li>
+          profile.socials.map((s, i) => (
+            <li class="reveal-zoom" style={`--delay: ${400 + i * 60}ms`}>
               <a href={s.url} target="_blank" rel="noopener" title={s.name} aria-label={s.name}>
                 <img src={`${base}icons/${s.icon}.svg`} alt="" width="22" height="22" loading="lazy" />
               </a>
@@ -49,7 +49,7 @@ const photoUrl = `${base}${profile.photo}`;
         }
       </ul>
     </div>
-    <div class="hero-photo reveal" style="--delay: 200ms">
+    <div class="hero-photo reveal-zoom" style="--delay: 200ms">
       <img src={photoUrl} alt={t.hero.photoAlt} width="320" height="320" />
     </div>
   </section>
@@ -60,7 +60,7 @@ const photoUrl = `${base}${profile.photo}`;
     <ol class="areas">
       {
         t.work.areas.map((a, i) => (
-          <li class="area reveal" style={`--delay: ${i * 80}ms`}>
+          <li class="area reveal-left" style={`--delay: ${i * 80}ms`}>
             <span class="area-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <h3 class="area-title">{a.title}</h3>
             <p class="area-desc">{a.desc}</p>
@@ -73,14 +73,20 @@ const photoUrl = `${base}${profile.photo}`;
 
   <section id="projects" class="section">
     <h2 class="reveal"><span class="section-num">02</span> {t.projects.title}</h2>
-    <p class="section-intro reveal">{t.projects.intro}</p>
+    <div class="carousel-head">
+      <p class="section-intro reveal">{t.projects.intro}</p>
+      <div class="carousel-controls reveal">
+        <button type="button" class="carousel-btn" data-dir="-1" aria-label={t.projects.prev}>←</button>
+        <button type="button" class="carousel-btn" data-dir="1" aria-label={t.projects.next}>→</button>
+      </div>
+    </div>
     <div class="cards-scroll">
       {
         t.projects.items.map((p, i) => {
           const media = projectMedia[p.key];
           return (
             <a
-              class="card project-card reveal"
+              class="card project-card reveal-zoom"
               href={p.url}
               target="_blank"
               rel="noopener"
@@ -112,6 +118,39 @@ const photoUrl = `${base}${profile.photo}`;
     </div>
   </section>
 
+  <script>
+    // Projects carousel: arrow buttons scroll one card at a time and
+    // disable themselves at either end.
+    const scroller = document.querySelector('.cards-scroll');
+    const buttons = document.querySelectorAll('.carousel-btn');
+
+    if (scroller instanceof HTMLElement && buttons.length > 0) {
+      // Snap positioning can leave a few px of offset at either end,
+      // so compare with a tolerance instead of exact edges.
+      const EDGE = 20;
+      const updateButtons = () => {
+        const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+        buttons.forEach((btn) => {
+          const dir = Number(btn.getAttribute('data-dir'));
+          (btn as HTMLButtonElement).disabled =
+            dir < 0 ? scroller.scrollLeft <= EDGE : scroller.scrollLeft >= maxScroll - EDGE;
+        });
+      };
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const card = scroller.querySelector('.card');
+          const step = card instanceof HTMLElement ? card.offsetWidth + 24 : 360;
+          scroller.scrollBy({ left: Number(btn.getAttribute('data-dir')) * step, behavior: 'smooth' });
+        });
+      });
+
+      scroller.addEventListener('scroll', updateButtons, { passive: true });
+      window.addEventListener('resize', updateButtons);
+      updateButtons();
+    }
+  </script>
+
   <section id="content" class="section">
     <h2 class="reveal"><span class="section-num">03</span> {t.content.title}</h2>
     <p class="section-intro reveal">{t.content.intro}</p>
@@ -119,7 +158,7 @@ const photoUrl = `${base}${profile.photo}`;
       {
         t.content.cards.map((c, i) => (
           <a
-            class="card content-card reveal"
+            class="card content-card reveal-zoom"
             href={profile.contentLinks[c.linkKey]}
             target="_blank"
             rel="noopener"
@@ -140,14 +179,16 @@ const photoUrl = `${base}${profile.photo}`;
   <section id="about" class="section">
     <h2 class="reveal"><span class="section-num">04</span> {t.about.title}</h2>
     <div class="about-grid">
-      <div class="reveal">
+      <div class="reveal-left">
         <p>{t.about.p1}</p>
         <p>{t.about.p2}</p>
       </div>
-      <div class="reveal" style="--delay: 120ms">
-        <h3>{t.about.skillsTitle}</h3>
+      <div>
+        <h3 class="reveal-right">{t.about.skillsTitle}</h3>
         <ul class="chips">
-          {t.about.skills.map((s) => <li>{s}</li>)}
+          {t.about.skills.map((s, i) => (
+            <li class="reveal-zoom" style={`--delay: ${100 + i * 50}ms`}>{s}</li>
+          ))}
         </ul>
       </div>
     </div>

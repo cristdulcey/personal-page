@@ -44,7 +44,7 @@ const dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long',
     ) : (
       <div class="post-list">
         {posts.map((post, i) => (
-          <a class="post-card reveal" href={postUrl(post.id)} style={`--delay: ${i * 80}ms`}>
+          <a class="post-card reveal-zoom" href={postUrl(post.id)} style={`--delay: ${i * 80}ms`}>
             <time datetime={post.data.date.toISOString()}>
               {post.data.date.toLocaleDateString(locale, dateFormat)}
             </time>
