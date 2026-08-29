@@ -1,44 +1,44 @@
-# Página personal
+# Personal page
 
-Sitio personal construido con [Astro](https://astro.build), pensado para desplegarse en GitHub Pages.
+Personal site built with [Astro](https://astro.build), deployed to GitHub Pages at [cristdulcey.com](https://cristdulcey.com).
 
-## Cómo funciona
+## How it works
 
-- **Astro** genera HTML estático en el build: carga rápida y sin JavaScript innecesario.
-- **GitHub Actions** (`.github/workflows/deploy.yml`) construye y publica el sitio automáticamente en cada push a `main`.
-- El sitio se sirve en `https://cristdulcey.com` (el archivo `public/CNAME` declara el dominio propio ante GitHub Pages).
+- **Astro** renders everything to static HTML at build time: fast loads and no unnecessary JavaScript.
+- **GitHub Actions** (`.github/workflows/deploy.yml`) builds and publishes the site automatically on every push to `main`.
+- **Custom domain**: `public/CNAME` tells GitHub Pages to serve the site at `cristdulcey.com`.
+- **Two languages**: Spanish at `/` and English at `/en/`, with a language switcher in the navigation bar. Both pages are static routes rendered from the same layout.
 
-## Desarrollo local
+## Local development
 
 ```bash
 npm install
-npm run dev      # servidor local en http://localhost:4321
-npm run build    # genera el sitio estático en dist/
-npm run preview  # previsualiza el build
+npm run dev      # local server at http://localhost:4321
+npm run build    # builds the static site into dist/
+npm run preview  # previews the build
 ```
 
-## Personalizar el contenido
+## Project structure
 
-Todo el contenido editable está al inicio de `src/pages/index.astro`:
+| Path | Purpose |
+| --- | --- |
+| `src/i18n.ts` | All site copy in Spanish and English, plus shared profile data (social links, email, photo). Edit content here. |
+| `src/layouts/Home.astro` | The page markup, styles and animations, shared by both languages. |
+| `src/pages/index.astro` | Spanish route (`/`). |
+| `src/pages/en/index.astro` | English route (`/en/`). |
+| `public/` | Static assets: profile photo, social icons, favicon and the `CNAME` file. |
 
-- `perfil`: nombre, rol, descripción y enlaces a redes.
-- `proyectos`: tarjetas de la sección de proyectos (añade o quita objetos del arreglo).
-- `habilidades`: lista de chips de la sección «Sobre mí».
+## Editing content
 
-Los estilos viven en el mismo archivo, dentro de la etiqueta `<style is:global>`.
+Everything editable lives in `src/i18n.ts`:
 
-## Activar GitHub Pages con el dominio propio (una sola vez)
+- `profile`: name, email, photo and social links (language independent).
+- `translations.es` / `translations.en`: navigation labels, hero copy, work areas, project cards, content cards, about text, skills and contact copy. Keep both languages in sync when you change one.
 
-1. En el repositorio que sirve el dominio actualmente (`littlelink`), ve a
-   **Settings → Pages** y elimina el dominio personalizado (o desactiva Pages).
-   GitHub solo permite que un repositorio reclame cada dominio.
-2. En este repositorio, ve a **Settings → Pages** y en
-   **Build and deployment → Source** elige **GitHub Actions**.
-3. En la misma página, en **Custom domain**, escribe `cristdulcey.com`,
-   guarda y marca **Enforce HTTPS** cuando la verificación termine.
-4. Haz merge de esta rama a `main`: el workflow construirá y publicará el sitio.
+To add a third language, add its entry to `translations`, create `src/pages/<lang>/index.astro` rendering `<Home lang="<lang>" />`, and add the link to the switcher in `src/layouts/Home.astro`.
 
-El DNS del dominio no necesita cambios si ya apunta a GitHub Pages
-(registros A a 185.199.108.153 / 109 / 110 / 111, o CNAME a
-`cristdulcey.github.io`), que es el caso cuando el dominio ya funcionaba
-con el repositorio anterior.
+## GitHub Pages setup (already done, kept for reference)
+
+1. Repository **Settings → Pages**: Source **GitHub Actions**, custom domain `cristdulcey.com`, Enforce HTTPS once the certificate is issued.
+2. The default branch must be `main`: the `github-pages` deployment environment only accepts deployments from the default branch.
+3. DNS points to GitHub Pages (A records to 185.199.108.153 / 109 / 110 / 111, or a CNAME to `cristdulcey.github.io`), so no DNS changes are needed when switching repositories.
