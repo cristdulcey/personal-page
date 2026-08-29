@@ -1,0 +1,914 @@
+---
+// Single-page layout shared by every language. All copy comes from
+// src/i18n.ts; the `lang` prop selects which translation to render.
+import { profile, translations, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = translations[lang];
+
+// Site base path with a guaranteed trailing slash
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+const photoUrl = `${base}${profile.photo}`;
+const urls: Record<Lang, string> = { es: base, en: `${base}en/` };
+const site = Astro.site ?? 'https://cristdulcey.com';
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={t.meta.description} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="canonical" href={new URL(urls[lang], site)} />
+    <link rel="alternate" hreflang="es" href={new URL(urls.es, site)} />
+    <link rel="alternate" hreflang="en" href={new URL(urls.en, site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(urls.es, site)} />
+    <title>{profile.name} — {t.hero.role}</title>
+  </head>
+  <body>
+    <div class="aurora" aria-hidden="true"></div>
+
+    <header class="nav">
+      <nav>
+        <a class="logo" href="#home">CD<span class="dot">.</span></a>
+        <ul>
+          <li><a href="#work">{t.nav.work}</a></li>
+          <li><a href="#projects">{t.nav.projects}</a></li>
+          <li><a href="#content">{t.nav.content}</a></li>
+          <li><a href="#contact">{t.nav.contact}</a></li>
+        </ul>
+        <div class="lang-switch" aria-label={t.nav.langLabel}>
+          <a href={urls.es} class={lang === 'es' ? 'active' : ''} aria-current={lang === 'es' ? 'page' : undefined}>ES</a>
+          <a href={urls.en} class={lang === 'en' ? 'active' : ''} aria-current={lang === 'en' ? 'page' : undefined}>EN</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section id="home" class="hero">
+        <div class="hero-text">
+          <p class="hero-kicker reveal">{t.hero.kicker}</p>
+          <h1 class="reveal" style="--delay: 80ms">{profile.name}</h1>
+          <p class="hero-role reveal" style="--delay: 160ms">
+            <span class="gradient-text">{t.hero.role}</span>
+          </p>
+          <p class="hero-desc reveal" style="--delay: 240ms">{t.hero.description}</p>
+          <div class="hero-cta reveal" style="--delay: 320ms">
+            <a class="btn btn-primary" href="#work">{t.hero.ctaWork}</a>
+            <a class="btn btn-ghost" href="#contact">{t.hero.ctaContact}</a>
+          </div>
+          <ul class="socials reveal" style="--delay: 400ms" aria-label={t.hero.socialsLabel}>
+            {
+              profile.socials.map((s) => (
+                <li>
+                  <a href={s.url} target="_blank" rel="noopener" title={s.name} aria-label={s.name}>
+                    <img src={`${base}icons/${s.icon}.svg`} alt="" width="22" height="22" loading="lazy" />
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="hero-photo reveal" style="--delay: 200ms">
+          <img src={photoUrl} alt={t.hero.photoAlt} width="320" height="320" />
+        </div>
+      </section>
+
+      <section id="work" class="section">
+        <h2 class="reveal"><span class="section-num">01</span> {t.work.title}</h2>
+        <p class="section-intro reveal">{t.work.intro}</p>
+        <ol class="areas">
+          {
+            t.work.areas.map((a, i) => (
+              <li class="area reveal" style={`--delay: ${i * 80}ms`}>
+                <span class="area-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="area-title">{a.title}</h3>
+                <p class="area-desc">{a.desc}</p>
+                <span class="area-icon" aria-hidden="true">{a.icon}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section id="projects" class="section">
+        <h2 class="reveal"><span class="section-num">02</span> {t.projects.title}</h2>
+        <div class="cards">
+          {
+            t.projects.items.map((p, i) => (
+              <a class="card reveal" href={p.url} style={`--delay: ${i * 90}ms`}>
+                <h3>{p.title}</h3>
+                <p>{p.desc}</p>
+                <ul class="chips chips-small">
+                  {p.tags.map((tag) => <li>{tag}</li>)}
+                </ul>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="content" class="section">
+        <h2 class="reveal"><span class="section-num">03</span> {t.content.title}</h2>
+        <p class="section-intro reveal">{t.content.intro}</p>
+        <div class="cards">
+          {
+            t.content.cards.map((c, i) => (
+              <a
+                class="card content-card reveal"
+                href={profile.contentLinks[c.linkKey]}
+                target="_blank"
+                rel="noopener"
+                style={`--delay: ${i * 90}ms; --glow: ${c.glow}`}
+              >
+                <span class="content-icon">
+                  <img src={`${base}icons/${c.icon}.svg`} alt="" width="26" height="26" loading="lazy" />
+                </span>
+                <h3>{c.name}</h3>
+                <p>{c.desc}</p>
+                <span class="card-action">{c.action} →</span>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <h2 class="reveal"><span class="section-num">04</span> {t.about.title}</h2>
+        <div class="about-grid">
+          <div class="reveal">
+            <p>{t.about.p1}</p>
+            <p>{t.about.p2}</p>
+          </div>
+          <div class="reveal" style="--delay: 120ms">
+            <h3>{t.about.skillsTitle}</h3>
+            <ul class="chips">
+              {t.about.skills.map((s) => <li>{s}</li>)}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section contact">
+        <h2 class="reveal"><span class="section-num">05</span> {t.contact.title}</h2>
+        <p class="reveal">{t.contact.lead}</p>
+        <div class="hero-cta reveal" style="--delay: 100ms">
+          <a class="btn btn-primary btn-icon" href={`mailto:${profile.email}`}>
+            <img src={`${base}icons/generic-email.svg`} alt="" width="18" height="18" />
+            {t.contact.emailButton}
+          </a>
+          {
+            profile.socials.slice(0, 2).map((s) => (
+              <a class="btn btn-ghost btn-icon" href={s.url} target="_blank" rel="noopener">
+                <img src={`${base}icons/${s.icon}.svg`} alt="" width="18" height="18" />
+                {s.name}
+              </a>
+            ))
+          }
+        </div>
+        <div class="support reveal" style="--delay: 200ms">
+          <p>{t.contact.supportLead}</p>
+          <div class="hero-cta">
+            <a class="btn btn-ghost btn-icon" href={profile.supportLinks.coffee} target="_blank" rel="noopener">
+              <img src={`${base}icons/buy-me-a-coffee.svg`} alt="" width="18" height="18" />
+              {t.contact.coffee}
+            </a>
+            <a class="btn btn-ghost btn-icon" href={profile.supportLinks.paypal} target="_blank" rel="noopener">
+              <img src={`${base}icons/paypal.svg`} alt="" width="18" height="18" />
+              {t.contact.paypal}
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <ul class="socials socials-footer" aria-label={t.hero.socialsLabel}>
+        {
+          profile.socials.map((s) => (
+            <li>
+              <a href={s.url} target="_blank" rel="noopener" title={s.name} aria-label={s.name}>
+                <img src={`${base}icons/${s.icon}.svg`} alt="" width="18" height="18" loading="lazy" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p>© {new Date().getFullYear()} {profile.name} · {t.footer}</p>
+    </footer>
+
+    <script>
+      // Reveal-on-scroll animation
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.12 }
+      );
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    </script>
+
+    <style is:global>
+      :root {
+        --bg: #0b0d14;
+        --surface: rgba(255, 255, 255, 0.04);
+        --border: rgba(255, 255, 255, 0.1);
+        --text: #e7e9f0;
+        --text-dim: #9aa1b5;
+        --accent-1: #7c3aed;
+        --accent-2: #06b6d4;
+        --radius: 16px;
+        --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 28px rgba(0, 0, 0, 0.35);
+        --shadow-high: 0 2px 6px rgba(0, 0, 0, 0.45), 0 18px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+          'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+
+      /* Aurora background with a slow colour drift */
+      .aurora {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background:
+          radial-gradient(600px 400px at 15% 10%, rgba(124, 58, 237, 0.22), transparent 70%),
+          radial-gradient(700px 500px at 85% 20%, rgba(6, 182, 212, 0.16), transparent 70%),
+          radial-gradient(800px 600px at 50% 100%, rgba(124, 58, 237, 0.1), transparent 70%);
+        animation: aurora-drift 24s ease-in-out infinite alternate;
+      }
+
+      @keyframes aurora-drift {
+        from {
+          filter: hue-rotate(0deg);
+        }
+        to {
+          filter: hue-rotate(35deg);
+        }
+      }
+
+      /* Navigation */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        background: rgba(11, 13, 20, 0.65);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      }
+
+      .nav nav {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0.9rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .logo {
+        font-weight: 800;
+        font-size: 1.25rem;
+        letter-spacing: -0.02em;
+        color: var(--text);
+        text-decoration: none;
+      }
+
+      .logo .dot {
+        color: var(--accent-2);
+      }
+
+      .nav ul {
+        display: flex;
+        gap: 1.75rem;
+        list-style: none;
+        padding: 0;
+        margin-left: auto;
+      }
+
+      .nav ul a {
+        color: var(--text-dim);
+        text-decoration: none;
+        font-size: 0.95rem;
+        white-space: nowrap;
+        transition: color 0.2s;
+      }
+
+      .nav ul a:hover {
+        color: var(--text);
+      }
+
+      /* Language switcher */
+      .lang-switch {
+        display: flex;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        overflow: hidden;
+        background: var(--surface);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .lang-switch a {
+        padding: 0.25rem 0.7rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: var(--text-dim);
+        text-decoration: none;
+        transition: color 0.2s, background 0.2s;
+      }
+
+      .lang-switch a:hover {
+        color: var(--text);
+      }
+
+      .lang-switch a.active {
+        color: #fff;
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      }
+
+      main {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+
+      /* Hero */
+      .hero {
+        min-height: calc(100svh - 65px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 3rem;
+        padding: 4rem 0;
+      }
+
+      .hero-text {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .hero-photo {
+        flex-shrink: 0;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-14px);
+        }
+      }
+
+      .hero-photo img {
+        width: clamp(200px, 26vw, 320px);
+        height: clamp(200px, 26vw, 320px);
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid transparent;
+        background:
+          linear-gradient(var(--bg), var(--bg)) padding-box,
+          linear-gradient(135deg, var(--accent-1), var(--accent-2)) border-box;
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.06),
+          0 24px 70px rgba(124, 58, 237, 0.45),
+          0 8px 24px rgba(0, 0, 0, 0.5);
+      }
+
+      .hero-kicker {
+        color: var(--accent-2);
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 7vw, 4.75rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+        margin: 0.5rem 0;
+        text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .hero-role {
+        font-size: clamp(1.3rem, 3.5vw, 2rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      /* Animated gradient sweeping across the text */
+      .gradient-text {
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-1));
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: text-shine 6s linear infinite;
+      }
+
+      @keyframes text-shine {
+        to {
+          background-position: 200% center;
+        }
+      }
+
+      .hero-desc {
+        max-width: 42rem;
+        color: var(--text-dim);
+        font-size: 1.1rem;
+        margin-top: 1.25rem;
+      }
+
+      .hero-cta {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2.25rem;
+        flex-wrap: wrap;
+      }
+
+      /* Social links */
+      .socials {
+        display: flex;
+        gap: 0.75rem;
+        list-style: none;
+        padding: 0;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .socials a {
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        box-shadow: var(--shadow-soft);
+        transition: transform 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      }
+
+      .socials a:hover {
+        transform: translateY(-4px) scale(1.05);
+        border-color: rgba(6, 182, 212, 0.6);
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 12px 30px rgba(6, 182, 212, 0.25), 0 4px 12px rgba(0, 0, 0, 0.4);
+      }
+
+      .socials img {
+        display: block;
+      }
+
+      .socials-footer {
+        justify-content: center;
+        margin: 0 0 1.25rem;
+      }
+
+      .socials-footer a {
+        width: 38px;
+        height: 38px;
+      }
+
+      /* Buttons with a shine sweep on hover */
+      .btn {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        padding: 0.8rem 1.6rem;
+        border-radius: 999px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      }
+
+      .btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          115deg,
+          transparent 30%,
+          rgba(255, 255, 255, 0.35) 50%,
+          transparent 70%
+        );
+        transform: translateX(-110%);
+        transition: transform 0.55s ease;
+        pointer-events: none;
+      }
+
+      .btn:hover::before {
+        transform: translateX(110%);
+      }
+
+      .btn-icon {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-primary {
+        color: #fff;
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+        box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4), 0 2px 8px rgba(0, 0, 0, 0.4);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 45px rgba(124, 58, 237, 0.55), 0 4px 12px rgba(0, 0, 0, 0.45);
+      }
+
+      .btn-ghost {
+        color: var(--text);
+        border: 1px solid var(--border);
+        background: var(--surface);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .btn-ghost:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-high);
+      }
+
+      /* Sections */
+      .section {
+        padding: 5.5rem 0;
+        border-top: 1px solid var(--border);
+      }
+
+      .section h2 {
+        font-size: clamp(1.75rem, 4vw, 2.5rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-bottom: 1rem;
+      }
+
+      .section-num {
+        color: var(--accent-2);
+        font-size: 0.9em;
+        margin-right: 0.5rem;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .section-intro {
+        color: var(--text-dim);
+        max-width: 40rem;
+        margin-bottom: 2.5rem;
+      }
+
+      .section h2 + .about-grid,
+      .section h2 + .cards {
+        margin-top: 2.5rem;
+      }
+
+      /* Work areas: full-width editorial rows */
+      .areas {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border-top: 1px solid var(--border);
+      }
+
+      .area {
+        position: relative;
+        display: grid;
+        grid-template-columns: 3.5rem 1.1fr 1.4fr 3.5rem;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1.9rem 1rem;
+        border-bottom: 1px solid var(--border);
+        transition: background 0.3s, padding 0.3s;
+      }
+
+      /* Side glow bar that lights up on hover */
+      .area::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, var(--accent-1), var(--accent-2));
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .area:hover {
+        background: linear-gradient(
+          90deg,
+          rgba(124, 58, 237, 0.1),
+          rgba(6, 182, 212, 0.04) 60%,
+          transparent
+        );
+        padding-left: 1.6rem;
+      }
+
+      .area:hover::before {
+        opacity: 1;
+      }
+
+      .area-num {
+        color: var(--accent-2);
+        font-weight: 700;
+        font-size: 0.9rem;
+        font-variant-numeric: tabular-nums;
+        opacity: 0.8;
+      }
+
+      .area-title {
+        font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        transition: color 0.3s;
+      }
+
+      .area:hover .area-title {
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .area-desc {
+        color: var(--text-dim);
+        font-size: 0.98rem;
+        margin: 0;
+      }
+
+      .area-icon {
+        font-size: 1.7rem;
+        justify-self: end;
+        filter: grayscale(1) opacity(0.45);
+        transform: scale(0.9);
+        transition: filter 0.3s, transform 0.3s;
+      }
+
+      .area:hover .area-icon {
+        filter: none;
+        transform: scale(1.15) rotate(-6deg);
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 3rem;
+        color: var(--text-dim);
+      }
+
+      .about-grid p + p {
+        margin-top: 1rem;
+      }
+
+      .about-grid h3 {
+        color: var(--text);
+        margin-bottom: 1rem;
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        list-style: none;
+        padding: 0;
+      }
+
+      .chips li {
+        padding: 0.35rem 0.9rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        font-size: 0.85rem;
+        color: var(--text);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s, border-color 0.2s;
+      }
+
+      .chips li:hover {
+        transform: translateY(-2px);
+        border-color: rgba(6, 182, 212, 0.5);
+      }
+
+      /* Project and content cards */
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .card {
+        display: block;
+        padding: 1.75rem;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background: var(--surface);
+        text-decoration: none;
+        color: inherit;
+        box-shadow: var(--shadow-soft);
+        transition: transform 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
+      }
+
+      .card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(124, 58, 237, 0.5);
+        background: rgba(255, 255, 255, 0.06);
+        box-shadow: 0 18px 50px var(--glow, rgba(124, 58, 237, 0.28)), 0 4px 14px rgba(0, 0, 0, 0.5);
+      }
+
+      .card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.6rem;
+      }
+
+      .card p {
+        color: var(--text-dim);
+        font-size: 0.95rem;
+        margin-bottom: 1.1rem;
+      }
+
+      .chips-small li {
+        font-size: 0.75rem;
+        color: var(--text-dim);
+      }
+
+      .content-icon {
+        display: grid;
+        place-items: center;
+        width: 54px;
+        height: 54px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--border);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 8px 24px rgba(0, 0, 0, 0.35);
+        margin-bottom: 1.1rem;
+        transition: transform 0.25s;
+      }
+
+      .content-card:hover .content-icon {
+        transform: scale(1.12) rotate(4deg);
+      }
+
+      .card-action {
+        color: var(--accent-2);
+        font-weight: 600;
+        font-size: 0.95rem;
+        display: inline-block;
+        transition: transform 0.2s;
+      }
+
+      .content-card:hover .card-action {
+        transform: translateX(4px);
+      }
+
+      .contact p {
+        color: var(--text-dim);
+        max-width: 36rem;
+      }
+
+      .support {
+        margin-top: 3rem;
+      }
+
+      .support p {
+        font-size: 0.95rem;
+        margin-bottom: 0.25rem;
+      }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2.5rem 1.5rem;
+        text-align: center;
+        color: var(--text-dim);
+        font-size: 0.85rem;
+      }
+
+      /* Staggered reveal-on-scroll animation */
+      .reveal {
+        opacity: 0;
+        transform: translateY(22px);
+        transition: opacity 0.6s ease var(--delay, 0s), transform 0.6s ease var(--delay, 0s);
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .reveal {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+        .aurora,
+        .hero-photo,
+        .gradient-text {
+          animation: none;
+        }
+        .btn::before {
+          display: none;
+        }
+      }
+
+      @media (max-width: 720px) {
+        /* Logo and language switcher share the first row;
+           section links wrap onto a centred second row */
+        .nav nav {
+          flex-wrap: wrap;
+          row-gap: 0.4rem;
+          padding: 0.75rem 1rem;
+        }
+        .nav ul {
+          order: 3;
+          width: 100%;
+          justify-content: center;
+          gap: 1rem;
+          margin-left: 0;
+        }
+        .nav ul a {
+          font-size: 0.85rem;
+        }
+        .hero {
+          flex-direction: column-reverse;
+          justify-content: center;
+          text-align: center;
+          gap: 2rem;
+        }
+        .hero-cta,
+        .socials {
+          justify-content: center;
+        }
+        .about-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        .area {
+          grid-template-columns: 2.5rem 1fr 2.5rem;
+          grid-template-areas:
+            'num title icon'
+            'num desc desc';
+          row-gap: 0.4rem;
+          column-gap: 0.75rem;
+          align-items: start;
+          text-align: left;
+          padding: 1.4rem 0.5rem;
+        }
+        .area:hover {
+          padding-left: 0.5rem;
+        }
+        .area-num {
+          grid-area: num;
+          padding-top: 0.2rem;
+        }
+        .area-title {
+          grid-area: title;
+        }
+        .area-desc {
+          grid-area: desc;
+        }
+        .area-icon {
+          grid-area: icon;
+          padding-top: 0.1rem;
+        }
+      }
+    </style>
+  </body>
+</html>
