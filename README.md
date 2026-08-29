@@ -58,6 +58,17 @@ Everything editable lives in `src/i18n.ts`:
 
 To add a third language, add its entry to `translations`, create `src/pages/<lang>/index.astro` rendering `<Home lang="<lang>" />`, and add the link to the switcher in `src/layouts/Home.astro`.
 
+## Traffic analytics (Cloudflare Web Analytics)
+
+The site supports [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/): free, lightweight and cookie-free (no consent banner needed). To enable it:
+
+1. Create a free account at dash.cloudflare.com.
+2. Go to **Web Analytics → Add a site**, enter `cristdulcey.com` and choose the manual JS snippet option (no DNS change needed).
+3. Copy the `token` value from the snippet Cloudflare shows.
+4. Paste it into `CF_ANALYTICS_TOKEN` in `src/layouts/Base.astro` and push.
+
+The beacon then loads on every page in both languages. Leaving the token empty disables analytics entirely.
+
 ## GitHub Pages setup (already done, kept for reference)
 
 1. Repository **Settings → Pages**: Source **GitHub Actions**, custom domain `cristdulcey.com`, Enforce HTTPS once the certificate is issued.
