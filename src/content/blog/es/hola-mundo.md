@@ -3,6 +3,7 @@ title: 'Hola, mundo: así funciona este blog'
 description: 'Cómo escribir y publicar artículos en este sitio usando archivos Markdown, sin tocar código.'
 date: 2026-08-29
 tags: ['meta', 'astro']
+draft: true
 ---
 
 ¡Bienvenido al blog! Este es un artículo de ejemplo que también sirve de guía rápida para publicar.
