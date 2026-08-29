@@ -1,0 +1,112 @@
+---
+// Shared page shell: head metadata, navigation with the language
+// switcher, footer and the reveal-on-scroll script. Every page renders
+// its content into the default slot.
+import { profile, translations, type Lang } from '../i18n';
+import '../styles/global.css';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /**
+   * Path of this page in each language, relative to the site base
+   * (e.g. { es: '', en: 'en/' } or { es: 'blog/', en: 'en/blog/' }).
+   * The language switcher links to these paths.
+   */
+  paths: Record<Lang, string>;
+  /**
+   * Whether the two paths are real translations of the same page. When
+   * false (e.g. a blog post without a translated counterpart) hreflang
+   * alternates are omitted and only the canonical link is emitted.
+   */
+  hreflangAlternates?: boolean;
+}
+
+const { lang, title, description, paths, hreflangAlternates = true } = Astro.props;
+const t = translations[lang];
+
+// Site base path with a guaranteed trailing slash
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+const urls: Record<Lang, string> = { es: `${base}${paths.es}`, en: `${base}${paths.en}` };
+const home = lang === 'en' ? `${base}en/` : base;
+const site = Astro.site ?? 'https://cristdulcey.com';
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="canonical" href={new URL(urls[lang], site)} />
+    {
+      hreflangAlternates && (
+        <>
+          <link rel="alternate" hreflang="es" href={new URL(urls.es, site)} />
+          <link rel="alternate" hreflang="en" href={new URL(urls.en, site)} />
+          <link rel="alternate" hreflang="x-default" href={new URL(urls.es, site)} />
+        </>
+      )
+    }
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="aurora" aria-hidden="true"></div>
+
+    <header class="nav">
+      <nav>
+        <a class="logo" href={home}>CD<span class="dot">.</span></a>
+        <ul>
+          <li><a href={`${home}#work`}>{t.nav.work}</a></li>
+          <li><a href={`${home}#projects`}>{t.nav.projects}</a></li>
+          <li><a href={`${home}#content`}>{t.nav.content}</a></li>
+          <li><a href={`${home}blog/`}>{t.nav.blog}</a></li>
+          <li><a href={`${home}#contact`}>{t.nav.contact}</a></li>
+        </ul>
+        <div class="lang-switch" aria-label={t.nav.langLabel}>
+          <a href={urls.es} class={lang === 'es' ? 'active' : ''} aria-current={lang === 'es' ? 'page' : undefined}>ES</a>
+          <a href={urls.en} class={lang === 'en' ? 'active' : ''} aria-current={lang === 'en' ? 'page' : undefined}>EN</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer>
+      <ul class="socials socials-footer" aria-label={t.hero.socialsLabel}>
+        {
+          profile.socials.map((s) => (
+            <li>
+              <a href={s.url} target="_blank" rel="noopener" title={s.name} aria-label={s.name}>
+                <img src={`${base}icons/${s.icon}.svg`} alt="" width="18" height="18" loading="lazy" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p>© {new Date().getFullYear()} {profile.name} · {t.footer}</p>
+    </footer>
+
+    <script>
+      // Reveal-on-scroll animation
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.12 }
+      );
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

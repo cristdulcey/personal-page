@@ -8,6 +8,7 @@ Personal site built with [Astro](https://astro.build), deployed to GitHub Pages 
 - **GitHub Actions** (`.github/workflows/deploy.yml`) builds and publishes the site automatically on every push to `main`.
 - **Custom domain**: `public/CNAME` tells GitHub Pages to serve the site at `cristdulcey.com`.
 - **Two languages**: Spanish at `/` and English at `/en/`, with a language switcher in the navigation bar. Both pages are static routes rendered from the same layout.
+- **Blog**: Markdown posts rendered with Astro content collections, at `/blog/` (Spanish) and `/en/blog/` (English).
 
 ## Local development
 
@@ -23,10 +24,30 @@ npm run preview  # previews the build
 | Path | Purpose |
 | --- | --- |
 | `src/i18n.ts` | All site copy in Spanish and English, plus shared profile data (social links, email, photo). Edit content here. |
-| `src/layouts/Home.astro` | The page markup, styles and animations, shared by both languages. |
-| `src/pages/index.astro` | Spanish route (`/`). |
-| `src/pages/en/index.astro` | English route (`/en/`). |
+| `src/styles/global.css` | All styles and animations. |
+| `src/layouts/Base.astro` | Shared shell: head metadata, navigation, language switcher and footer. |
+| `src/layouts/Home.astro` | Home page content, shared by both languages. |
+| `src/layouts/BlogIndex.astro` / `BlogPost.astro` | Blog list and post pages, shared by both languages. |
+| `src/content/blog/es/` and `en/` | Blog posts as Markdown files, one folder per language. |
+| `src/content.config.ts` | Blog collection schema (frontmatter validation). |
+| `src/pages/` | Routes: `/`, `/en/`, `/blog/`, `/blog/<slug>/`, `/en/blog/`, `/en/blog/<slug>/`. |
 | `public/` | Static assets: profile photo, social icons, favicon and the `CNAME` file. |
+
+## Writing blog posts
+
+Create a Markdown file in `src/content/blog/es/` (Spanish) or `src/content/blog/en/` (English). The file name becomes the URL slug. Start it with this frontmatter:
+
+```yaml
+---
+title: 'Post title'
+description: 'Short summary shown in the blog list.'
+date: 2026-08-29
+tags: ['python', 'devops']   # optional
+draft: true                  # optional: keeps the post unpublished
+---
+```
+
+Write the body in Markdown below the frontmatter, push to `main`, and GitHub Actions publishes it. Posts are independent per language: translate a post by creating a file in the other language's folder.
 
 ## Editing content
 

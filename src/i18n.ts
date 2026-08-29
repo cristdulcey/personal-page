@@ -40,8 +40,15 @@ export const translations = {
       work: 'Qué hago',
       projects: 'Proyectos',
       content: 'Contenido',
+      blog: 'Blog',
       contact: 'Contacto',
       langLabel: 'Idioma',
+    },
+    blog: {
+      title: 'Blog',
+      intro: 'Notas y artículos sobre desarrollo de software, DevOps y tecnología.',
+      empty: 'Todavía no hay artículos publicados. ¡Pronto!',
+      back: 'Volver al blog',
     },
     hero: {
       kicker: 'Hola, soy',
@@ -178,8 +185,15 @@ export const translations = {
       work: 'What I do',
       projects: 'Projects',
       content: 'Content',
+      blog: 'Blog',
       contact: 'Contact',
       langLabel: 'Language',
+    },
+    blog: {
+      title: 'Blog',
+      intro: 'Notes and articles about software development, DevOps and technology.',
+      empty: 'No posts published yet. Coming soon!',
+      back: 'Back to the blog',
     },
     hero: {
       kicker: "Hi, I'm",
