@@ -2,7 +2,7 @@
 // Home page content, shared by every language. All copy comes from
 // src/i18n.ts; the `lang` prop selects which translation to render.
 import Base from './Base.astro';
-import { profile, translations, type Lang } from '../i18n';
+import { profile, projectMedia, translations, type Lang } from '../i18n';
 
 interface Props {
   lang: Lang;
@@ -76,21 +76,37 @@ const photoUrl = `${base}${profile.photo}`;
     <p class="section-intro reveal">{t.projects.intro}</p>
     <div class="cards">
       {
-        t.projects.items.map((p, i) => (
-          <a
-            class="card reveal"
-            href={p.url}
-            target="_blank"
-            rel="noopener"
-            style={`--delay: ${i * 90}ms`}
-          >
-            <h3>{p.title}</h3>
-            <p>{p.desc}</p>
-            <ul class="chips chips-small">
-              {p.tags.map((tag) => <li>{tag}</li>)}
-            </ul>
-          </a>
-        ))
+        t.projects.items.map((p, i) => {
+          const media = projectMedia[p.key];
+          return (
+            <a
+              class="card project-card reveal"
+              href={p.url}
+              target="_blank"
+              rel="noopener"
+              style={`--delay: ${i * 90}ms`}
+            >
+              {media.image ? (
+                <figure class="card-media">
+                  <img src={`${base}${media.image}`} alt="" loading="lazy" />
+                </figure>
+              ) : (
+                <figure
+                  class="card-media card-banner"
+                  style={`--banner-from: ${media.from}; --banner-to: ${media.to}`}
+                >
+                  <span class="banner-emblem" aria-hidden="true">{media.emblem}</span>
+                  <span class="banner-initial" aria-hidden="true">{p.title.charAt(0)}</span>
+                </figure>
+              )}
+              <h3>{p.title}</h3>
+              <p>{p.desc}</p>
+              <ul class="chips chips-small">
+                {p.tags.map((tag) => <li>{tag}</li>)}
+              </ul>
+            </a>
+          );
+        })
       }
     </div>
   </section>

@@ -30,6 +30,21 @@ export const profile = {
   },
 };
 
+// Visual header of each project card, keyed by the project's `key`.
+// `image` (a path under public/, e.g. 'projects/chivo.jpg') takes
+// precedence when present; otherwise a branded gradient banner with the
+// emblem is rendered.
+export type ProjectKey = 'chivo' | 'fenix' | 'walletguru';
+
+export const projectMedia: Record<
+  ProjectKey,
+  { from: string; to: string; emblem: string; image?: string }
+> = {
+  chivo: { from: '#e2231a', to: '#7f1010', emblem: '₿' },
+  fenix: { from: '#f59e0b', to: '#b91c1c', emblem: '🔥' },
+  walletguru: { from: '#14b8a6', to: '#065f46', emblem: '🌐' },
+};
+
 export const translations = {
   es: {
     meta: {
@@ -102,18 +117,21 @@ export const translations = {
       intro: 'Algunos de los proyectos de los que he hecho parte:',
       items: [
         {
+          key: 'chivo' as const,
           title: 'Chivo Wallet',
           desc: 'Billetera virtual del gobierno de El Salvador, la primera en el mundo en implementar Bitcoin como moneda de curso legal (2021). Tuve la oportunidad de ser parte de este proyecto.',
           tags: ['Bitcoin', 'Fintech', 'Billetera'],
           url: 'https://www.chivowallet.com',
         },
         {
+          key: 'fenix' as const,
           title: 'Proyecto Fénix',
           desc: 'Plataforma de la Secretaría de Movilidad de Bogotá. Participé en todo el despliegue y la administración de la infraestructura del proyecto.',
           tags: ['DevOps', 'Infraestructura', 'Gobierno'],
           url: 'https://webfenix.movilidadbogota.gov.co',
         },
         {
+          key: 'walletguru' as const,
           title: 'Wallet Guru',
           desc: 'Una de las primeras billeteras en integrar Open Payments, el protocolo desarrollado por la Interledger Foundation con su proyecto Rafiki.',
           tags: ['Open Payments', 'Interledger', 'Billetera'],
@@ -248,18 +266,21 @@ export const translations = {
       intro: 'Some of the projects I have been part of:',
       items: [
         {
+          key: 'chivo' as const,
           title: 'Chivo Wallet',
           desc: 'Virtual wallet of the government of El Salvador, the first in the world to implement Bitcoin as legal tender (2021). I had the opportunity to be part of this project.',
           tags: ['Bitcoin', 'Fintech', 'Wallet'],
           url: 'https://www.chivowallet.com',
         },
         {
+          key: 'fenix' as const,
           title: 'Fénix Project',
           desc: "Platform for Bogotá's Secretariat of Mobility. I worked on the entire deployment and infrastructure administration of the project.",
           tags: ['DevOps', 'Infrastructure', 'Government'],
           url: 'https://webfenix.movilidadbogota.gov.co',
         },
         {
+          key: 'walletguru' as const,
           title: 'Wallet Guru',
           desc: 'One of the first wallets to integrate Open Payments, the protocol developed by the Interledger Foundation with its Rafiki project.',
           tags: ['Open Payments', 'Interledger', 'Wallet'],

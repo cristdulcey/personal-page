@@ -914,3 +914,57 @@ footer {
   color: var(--text);
   background: var(--surface);
 }
+
+/* Project card media header: a real screenshot when available,
+   otherwise a branded gradient banner */
+.card-media {
+  margin: -1.75rem -1.75rem 1.25rem;
+  height: 150px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.project-card:hover .card-media img {
+  transform: scale(1.05);
+}
+
+.card-banner {
+  background:
+    radial-gradient(120% 140% at 85% 15%, rgba(255, 255, 255, 0.22), transparent 55%),
+    linear-gradient(135deg, var(--banner-from), var(--banner-to));
+}
+
+.banner-emblem {
+  position: absolute;
+  right: 1.4rem;
+  bottom: 0.9rem;
+  font-size: 2.6rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  transform: rotate(-6deg);
+  transition: transform 0.35s ease;
+}
+
+.project-card:hover .banner-emblem {
+  transform: rotate(0deg) scale(1.15);
+}
+
+.banner-initial {
+  position: absolute;
+  left: 0.75rem;
+  top: -1.6rem;
+  font-size: 7.5rem;
+  font-weight: 800;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.14);
+  letter-spacing: -0.04em;
+  user-select: none;
+}
