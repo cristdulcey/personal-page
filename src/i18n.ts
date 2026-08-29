@@ -14,6 +14,7 @@ export const profile = {
     { name: 'GitHub', url: 'https://github.com/cristdulcey', icon: 'github' },
     { name: 'LinkedIn', url: 'https://www.linkedin.com/in/cristdulcey/', icon: 'linkedin' },
     { name: 'YouTube', url: 'https://www.youtube.com/@cristdulcey', icon: 'youtube' },
+    { name: 'TikTok', url: 'https://www.tiktok.com/@cristdulcey', icon: 'tiktok' },
     { name: 'X', url: 'https://twitter.com/cristdulcey', icon: 'x' },
     { name: 'Instagram', url: 'https://www.instagram.com/cristdulcey/', icon: 'instagram' },
     { name: 'Medium', url: 'https://medium.com/@cristdulcey', icon: 'medium' },
@@ -25,6 +26,8 @@ export const profile = {
   },
   contentLinks: {
     youtube: 'https://www.youtube.com/@cristdulcey',
+    tiktok: 'https://www.tiktok.com/@cristdulcey',
+    instagram: 'https://www.instagram.com/cristdulcey/',
     medium: 'https://medium.com/@cristdulcey',
     github: 'https://github.com/cristdulcey',
   },
@@ -149,7 +152,8 @@ export const translations = {
     },
     content: {
       title: 'Mi contenido',
-      intro: 'Comparto lo que aprendo sobre desarrollo de software, DevOps y tecnología:',
+      intro:
+        'Comparto lo que aprendo sobre desarrollo de software, DevOps y tecnología: videos, artículos, y ahora también reels y contenido corto en redes sociales.',
       cards: [
         {
           name: 'YouTube',
@@ -158,6 +162,22 @@ export const translations = {
           icon: 'youtube',
           glow: 'rgba(255, 0, 51, 0.35)',
           linkKey: 'youtube' as const,
+        },
+        {
+          name: 'TikTok',
+          desc: 'Reels y videos cortos sobre programación y tecnología.',
+          action: 'Ver TikTok',
+          icon: 'tiktok',
+          glow: 'rgba(254, 44, 85, 0.35)',
+          linkKey: 'tiktok' as const,
+        },
+        {
+          name: 'Instagram',
+          desc: 'Reels y contenido corto de mi día a día como desarrollador.',
+          action: 'Ver perfil',
+          icon: 'instagram',
+          glow: 'rgba(228, 64, 95, 0.35)',
+          linkKey: 'instagram' as const,
         },
         {
           name: 'Medium',
@@ -305,7 +325,8 @@ export const translations = {
     },
     content: {
       title: 'My content',
-      intro: 'I share what I learn about software development, DevOps and technology:',
+      intro:
+        'I share what I learn about software development, DevOps and technology: videos, articles, and now also reels and short-form content on social media.',
       cards: [
         {
           name: 'YouTube',
@@ -314,6 +335,22 @@ export const translations = {
           icon: 'youtube',
           glow: 'rgba(255, 0, 51, 0.35)',
           linkKey: 'youtube' as const,
+        },
+        {
+          name: 'TikTok',
+          desc: 'Reels and short-form videos about programming and technology.',
+          action: 'Watch on TikTok',
+          icon: 'tiktok',
+          glow: 'rgba(254, 44, 85, 0.35)',
+          linkKey: 'tiktok' as const,
+        },
+        {
+          name: 'Instagram',
+          desc: 'Reels and short-form content from my day-to-day as a developer.',
+          action: 'View profile',
+          icon: 'instagram',
+          glow: 'rgba(228, 64, 95, 0.35)',
+          linkKey: 'instagram' as const,
         },
         {
           name: 'Medium',
