@@ -60,14 +60,9 @@ To add a third language, add its entry to `translations`, create `src/pages/<lan
 
 ## Traffic analytics (Cloudflare Web Analytics)
 
-The site supports [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/): free, lightweight and cookie-free (no consent banner needed). To enable it:
+The domain's DNS lives on Cloudflare with the records proxied (orange cloud), so analytics is enabled from the Cloudflare dashboard with no code changes: zone `cristdulcey.com` → **Analytics & Logs → Web Analytics** → enable with automatic setup. Cloudflare injects the beacon at the edge on every page. With the proxy on, keep **SSL/TLS** in **Full** mode (not Flexible) to avoid redirect loops with GitHub Pages.
 
-1. Create a free account at dash.cloudflare.com.
-2. Go to **Web Analytics → Add a site**, enter `cristdulcey.com` and choose the manual JS snippet option (no DNS change needed).
-3. Copy the `token` value from the snippet Cloudflare shows.
-4. Paste it into `CF_ANALYTICS_TOKEN` in `src/layouts/Base.astro` and push.
-
-The beacon then loads on every page in both languages. Leaving the token empty disables analytics entirely.
+As a fallback, the layout also supports embedding the beacon itself: paste a Web Analytics site token into `CF_ANALYTICS_TOKEN` in `src/layouts/Base.astro`. While the token is empty (the default) nothing is rendered. Do not combine both methods, or visits are counted twice.
 
 ## GitHub Pages setup (already done, kept for reference)
 
