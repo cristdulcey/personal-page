@@ -73,10 +73,17 @@ const photoUrl = `${base}${profile.photo}`;
 
   <section id="projects" class="section">
     <h2 class="reveal"><span class="section-num">02</span> {t.projects.title}</h2>
+    <p class="section-intro reveal">{t.projects.intro}</p>
     <div class="cards">
       {
         t.projects.items.map((p, i) => (
-          <a class="card reveal" href={p.url} style={`--delay: ${i * 90}ms`}>
+          <a
+            class="card reveal"
+            href={p.url}
+            target="_blank"
+            rel="noopener"
+            style={`--delay: ${i * 90}ms`}
+          >
             <h3>{p.title}</h3>
             <p>{p.desc}</p>
             <ul class="chips chips-small">
