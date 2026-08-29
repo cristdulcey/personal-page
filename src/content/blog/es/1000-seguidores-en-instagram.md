@@ -14,7 +14,7 @@ Sé que en internet hay cuentas con millones de seguidores y que 1.000 puede son
 
 Llevo años construyendo productos digitales: infraestructura, backend, apps web y móviles. Pero la mayoría de lo que aprendía se quedaba conmigo o, con suerte, con mi equipo. En algún momento entendí que **compartir lo que aprendes multiplica su valor**: te obliga a entenderlo mejor, ayuda a gente que va unos pasos atrás, y te conecta con gente que va unos pasos adelante.
 
-Por eso decidí aprender en público: reels y videos cortos en Instagram y TikTok, videos en YouTube, y ahora también este blog.
+Por eso decidí aprender en público: reels y videos cortos en Instagram y TikTok, videos en YouTube, y ahora también este blog. Desde el inicio mi intención siempre ha sido la misma: **compartir el conocimiento de lo que sé para ayudar a otros**.
 
 
 ## Lo que me han enseñado estos meses
@@ -36,7 +36,7 @@ Todo el proceso vive en un tablero que me muestra en qué etapa va cada video, c
 5. **Edición y revisión.** Parte de las animaciones las generamos de forma automatizada, y el video editado vuelve a mí para validarlo.
 6. **Programación y publicación.** Aquí viene mi parte favorita: el video pasa por un programa que construimos nosotros mismos, que programa el contenido y lo sube automáticamente a todas las plataformas que queremos. El ítem pasa a «publicado» y el tablero queda listo para el siguiente.
 
-Sí: terminé montándole un pipeline con despliegue automatizado a los reels. Deformación profesional.
+No puedo evitarlo: soy ingeniero hasta para hacer reels.
 
 ## Lo que viene
 

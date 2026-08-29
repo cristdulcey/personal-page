@@ -14,7 +14,7 @@ I know there are accounts out there with millions of followers, and 1,000 might 
 
 I have spent years building digital products: infrastructure, backend, web and mobile apps. But most of what I learned stayed with me or, at best, with my team. At some point I understood that **sharing what you learn multiplies its value**: it forces you to understand it better, it helps people a few steps behind you, and it connects you with people a few steps ahead.
 
-That is why I decided to learn in public: reels and short videos on Instagram and TikTok, videos on YouTube, and now this blog too.
+That is why I decided to learn in public: reels and short videos on Instagram and TikTok, videos on YouTube, and now this blog too. From the very beginning my intention has always been the same: **to share what I know to help others**.
 
 
 ## What these months have taught me
@@ -36,7 +36,7 @@ The whole process lives on a board that shows me which stage every video is in, 
 5. **Editing and review.** Part of the animations are generated automatically, and the edited video comes back to me for a final check.
 6. **Scheduling and publishing.** Here comes my favourite part: the video goes through a program we built ourselves, which schedules the content and uploads it automatically to every platform we want. The item moves to "published" and the board is ready for the next one.
 
-Yes: I ended up building a pipeline with automated deployment for my reels. Occupational hazard.
+I cannot help it: I am an engineer even when making reels.
 
 ## What comes next
 
