@@ -16,24 +16,27 @@ Llevo años construyendo productos digitales: infraestructura, backend, apps web
 
 Por eso decidí aprender en público: reels y videos cortos en Instagram y TikTok, videos en YouTube, y ahora también este blog.
 
-<!-- Personaliza: si recuerdas cuándo empezaste a publicar en serio (mes/año) o qué te empujó a hacerlo, cuéntalo aquí en una o dos frases. -->
 
 ## Lo que me han enseñado estos meses
 
 Estos son los aprendizajes más honestos que me llevo hasta ahora:
 
 1. **La constancia le gana al talento.** Los videos que funcionaron no llegaron cuando yo quise, llegaron porque seguí publicando cuando nadie miraba.
-2. **Nadie espera perfección.** Los reels más simples, grabados sin producción, muchas veces conectan más que los que planeo durante días.
-3. **El contenido corto es un músculo.** Explicar una idea técnica en menos de un minuto es más difícil que escribir mil líneas de código — y te hace mejor comunicador, también en el trabajo.
-4. **La comunidad devuelve más de lo que das.** Preguntas, correcciones, ideas para nuevos videos: la mitad de mi contenido nace de conversaciones con quienes me siguen.
-
-<!-- Personaliza: reemplaza o ajusta estos aprendizajes con los tuyos reales. Si tienes un reel que funcionó especialmente bien, menciónalo y por qué crees que conectó. -->
+2. **El contenido corto es un músculo.** Explicar una idea técnica en menos de un minuto es más difícil que escribir mil líneas de código — y te hace mejor comunicador, también en el trabajo.
+3. **La comunidad devuelve más de lo que das.** Preguntas, correcciones, ideas para nuevos videos: la mitad de mi contenido nace de conversaciones con quienes me siguen.
 
 ## Detrás de cámaras: cómo hago los reels
 
-[Describe aquí tu proceso real, paso a paso: de dónde sacas las ideas, si escribes guion o improvisas, con qué grabas (¿el celular?), con qué editas, si tienes algo automatizado del proceso, y cuánto te toma un reel de principio a fin. Esta sección es la que más valor le da al artículo: a la gente le encanta ver la cocina.]
+Todo el proceso vive en un tablero que me muestra en qué etapa va cada video, como un pipeline de desarrollo. Cada idea que me llega — en la calle, programando, en una conversación — la creo como un ítem, y de ahí va avanzando:
 
-<!-- Cuando me cuentes tu proceso real, redacto esta sección por ti. -->
+1. **Idea.** El tablero arranca con todas las ideas capturadas; ninguna se pierde.
+2. **Guion.** Escribo las ideas principales de lo que voy a decir, sin sobreproducirlo.
+3. **Validación.** Últimamente lo reviso con mi editora: entre los dos validamos que el video realmente cumpla con lo que queremos informar antes de grabar nada.
+4. **Grabación.** Con el guion claro, grabar es la parte más rápida.
+5. **Edición y revisión.** El video editado vuelve a mí para validarlo.
+6. **Programación y publicación.** Aquí viene mi parte favorita: el video pasa por un programa que construimos nosotros mismos, que programa el contenido y lo sube automáticamente a todas las plataformas que queremos. El ítem pasa a «publicado» y el tablero queda listo para el siguiente.
+
+Sí: terminé montándole un pipeline con despliegue automatizado a los reels. Deformación profesional.
 
 ## Lo que viene
 

@@ -16,24 +16,27 @@ I have spent years building digital products: infrastructure, backend, web and m
 
 That is why I decided to learn in public: reels and short videos on Instagram and TikTok, videos on YouTube, and now this blog too.
 
-<!-- Personalise: if you remember when you started posting seriously (month/year) or what pushed you to do it, tell it here in one or two sentences. -->
 
 ## What these months have taught me
 
 These are the most honest lessons I am taking with me so far:
 
 1. **Consistency beats talent.** The videos that worked did not arrive when I wanted them to — they arrived because I kept posting when nobody was watching.
-2. **Nobody expects perfection.** The simplest reels, recorded with no production, often connect better than the ones I plan for days.
-3. **Short-form content is a muscle.** Explaining a technical idea in under a minute is harder than writing a thousand lines of code — and it makes you a better communicator at work too.
-4. **The community gives back more than you put in.** Questions, corrections, ideas for new videos: half of my content is born from conversations with the people who follow me.
-
-<!-- Personalise: replace or adjust these lessons with your real ones. If one reel performed especially well, mention it and why you think it connected. -->
+2. **Short-form content is a muscle.** Explaining a technical idea in under a minute is harder than writing a thousand lines of code — and it makes you a better communicator at work too.
+3. **The community gives back more than you put in.** Questions, corrections, ideas for new videos: half of my content is born from conversations with the people who follow me.
 
 ## Behind the scenes: how I make the reels
 
-[Describe your real process here, step by step: where the ideas come from, whether you script or improvise, what you record with (your phone?), what you edit with, whether any part of the process is automated, and how long a reel takes from start to finish. This is the section that gives the article the most value: people love seeing the kitchen.]
+The whole process lives on a board that shows me which stage every video is in, like a development pipeline. Every idea that comes to me — on the street, while coding, in a conversation — becomes an item, and from there it moves forward:
 
-<!-- Once you tell me your real process, I will write this section for you. -->
+1. **Idea.** The board starts with every idea captured; none of them gets lost.
+2. **Script.** I write down the main points of what I am going to say, without overproducing it.
+3. **Validation.** Lately I review it with my editor: together we validate that the video really delivers what we want to communicate, before recording anything.
+4. **Recording.** With a clear script, recording is the fastest part.
+5. **Editing and review.** The edited video comes back to me for a final check.
+6. **Scheduling and publishing.** Here comes my favourite part: the video goes through a program we built ourselves, which schedules the content and uploads it automatically to every platform we want. The item moves to "published" and the board is ready for the next one.
+
+Yes: I ended up building a pipeline with automated deployment for my reels. Occupational hazard.
 
 ## What comes next
 
