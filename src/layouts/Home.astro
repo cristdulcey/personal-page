@@ -104,6 +104,7 @@ const photoUrl = `${base}${profile.photo}`;
               <ul class="chips chips-small">
                 {p.tags.map((tag) => <li>{tag}</li>)}
               </ul>
+              <span class="card-url">{p.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')} ↗</span>
             </a>
           );
         })

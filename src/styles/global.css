@@ -999,3 +999,18 @@ footer {
   background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
   border-radius: 999px;
 }
+
+/* Visible project URL at the bottom of each card */
+.card-url {
+  display: inline-block;
+  margin-top: 1.1rem;
+  color: var(--accent-2);
+  font-weight: 600;
+  font-size: 0.88rem;
+  overflow-wrap: anywhere;
+  transition: transform 0.2s;
+}
+
+.project-card:hover .card-url {
+  transform: translateX(4px);
+}
