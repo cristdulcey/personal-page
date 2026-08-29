@@ -58,6 +58,12 @@ Everything editable lives in `src/i18n.ts`:
 
 To add a third language, add its entry to `translations`, create `src/pages/<lang>/index.astro` rendering `<Home lang="<lang>" />`, and add the link to the switcher in `src/layouts/Home.astro`.
 
+## Traffic analytics (Cloudflare Web Analytics)
+
+The domain's DNS lives on Cloudflare with the records proxied (orange cloud), so analytics is enabled from the Cloudflare dashboard with no code changes: zone `cristdulcey.com` → **Analytics & Logs → Web Analytics** → enable with automatic setup. Cloudflare injects the beacon at the edge on every page. With the proxy on, keep **SSL/TLS** in **Full** mode (not Flexible) to avoid redirect loops with GitHub Pages.
+
+As a fallback, the layout also supports embedding the beacon itself: paste a Web Analytics site token into `CF_ANALYTICS_TOKEN` in `src/layouts/Base.astro`. While the token is empty (the default) nothing is rendered. Do not combine both methods, or visits are counted twice.
+
 ## GitHub Pages setup (already done, kept for reference)
 
 1. Repository **Settings → Pages**: Source **GitHub Actions**, custom domain `cristdulcey.com`, Enforce HTTPS once the certificate is issued.
