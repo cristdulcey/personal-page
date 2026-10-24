@@ -32,7 +32,7 @@ Stripping away the academic notation, here is what this means in plain software 
 
 Simply put: **the model is a statistical engine predicting the next fragment of text**.
 
-*[How an LLM generates code step by step](/blog/token-generation-flow-en.svg)
+![How an LLM generates code step by step](/blog/token-generation-flow-en.svg)
 
 The model does not consult a live database or run an interpreter while typing. It matches activation patterns across high-dimensional vector spaces. If an invented API method looks statistically plausible given your prompt, the model will output it without hesitation.
 
