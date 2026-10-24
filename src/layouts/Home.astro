@@ -19,6 +19,8 @@ const base = import.meta.env.BASE_URL.endsWith('/')
 
 const photoUrl = `${base}${profile.photo}`;
 const blogUrl = `${base}${lang === 'en' ? 'en/' : ''}blog/`;
+
+const isEs = lang === 'es';
 ---
 
 <Base
@@ -27,34 +29,55 @@ const blogUrl = `${base}${lang === 'en' ? 'en/' : ''}blog/`;
   description={t.meta.description}
   paths={{ es: '', en: 'en/' }}
 >
+  <!-- Hero Section -->
   <section id="home" class="hero">
     <div class="hero-text">
-      <p class="hero-kicker reveal">{t.hero.kicker}</p>
-      <h1 class="reveal" style="--delay: 80ms">{profile.name}</h1>
-      <p class="hero-role reveal" style="--delay: 160ms">
-        <span class="gradient-text">{t.hero.role}</span>
+      <div class="docket-stamp reveal">ARCHITECTURAL DOSSIER // CRISTIAN DULCEY</div>
+      <h1 class="reveal" style="--delay: 80ms">
+        {isEs ? 'Arquitectura de Sistemas de ' : 'High-Reliability Architecture for '}
+        <span class="celeste-text">{isEs ? 'Misión Crítica' : 'Sovereign Scale'}</span>.
+      </h1>
+      <p class="hero-role reveal" style="--delay: 140ms">
+        <strong>{profile.name}</strong>
+        <span style="color: var(--text-dim); font-weight: 500;"> · {t.hero.role}</span>
       </p>
-      <p class="hero-desc reveal" style="--delay: 240ms">{t.hero.description}</p>
-      <div class="hero-cta reveal" style="--delay: 320ms">
-        <a class="btn btn-primary" href="#work">{t.hero.ctaWork}</a>
+      <p class="hero-desc reveal" style="--delay: 200ms">{t.hero.description}</p>
+      
+      <div class="hero-cta reveal" style="--delay: 260ms">
+        <a class="btn btn-primary" href="#projects">{t.hero.ctaWork} →</a>
         <a class="btn btn-ghost" href="#contact">{t.hero.ctaContact}</a>
       </div>
-      <ul class="socials" aria-label={t.hero.socialsLabel}>
-        {
-          profile.socials.map((s, i) => (
-            <li class="reveal-zoom" style={`--delay: ${400 + i * 60}ms`}>
-              <a href={s.url} target="_blank" rel="noopener" title={s.name} aria-label={s.name}>
-                <img src={`${base}icons/${s.icon}.svg`} alt="" width="22" height="22" loading="lazy" />
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+
+      <!-- Specification Strip -->
+      <div class="spec-grid reveal" style="--delay: 340ms">
+        <div class="spec-box">
+          <span class="spec-label">Sovereign Scale</span>
+          <div class="spec-value">4M+</div>
+          <div class="spec-sub">{isEs ? 'Usuarios en Chivo Wallet' : 'Citizens on Chivo Wallet'}</div>
+        </div>
+        <div class="spec-box">
+          <span class="spec-label">Distributed Cluster</span>
+          <div class="spec-value">300+</div>
+          <div class="spec-sub">{isEs ? 'Microservicios en Azure K8s' : 'Microservices on Azure K8s'}</div>
+        </div>
+        <div class="spec-box">
+          <span class="spec-label">Throughput Peak</span>
+          <div class="spec-value">100K+</div>
+          <div class="spec-sub">{isEs ? 'Req/seg en concurrencia' : 'Peak req/s concurrency'}</div>
+        </div>
+        <div class="spec-box">
+          <span class="spec-label">Production Tenure</span>
+          <div class="spec-value">15+</div>
+          <div class="spec-sub">{isEs ? 'Años en arquitectura' : 'Years in architecture'}</div>
+        </div>
+      </div>
     </div>
+
+    <!-- Right Interactive Column -->
     <div class="hero-interactive reveal-zoom" style="--delay: 200ms">
       <TelemetryConsole lang={lang} />
       <div class="hero-architect-card">
-        <img src={photoUrl} alt={t.hero.photoAlt} width="40" height="40" class="architect-avatar" />
+        <img src={photoUrl} alt={t.hero.photoAlt} width="36" height="36" class="architect-avatar" />
         <div class="architect-info">
           <span class="architect-name">{profile.name}</span>
           <span class="architect-role">Systems Architect · Bogotá, CO</span>
@@ -64,8 +87,140 @@ const blogUrl = `${base}${lang === 'en' ? 'en/' : ''}blog/`;
     </div>
   </section>
 
+  <!-- Projects / Flagship Dossiers Section -->
+  <section id="projects" class="section">
+    <div style="margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: baseline;">
+      <h2 class="reveal" style="margin: 0; font-size: 1.85rem; font-weight: 800;">
+        <span class="celeste-text" style="font-family: var(--font-mono); font-size: 0.85em; margin-right: 0.5rem;">01 //</span>
+        {isEs ? 'Sistemas de Misión Crítica & Casos de Estudio' : 'Mission-Critical Systems & Case Studies'}
+      </h2>
+      <span style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim); text-transform: uppercase;">VERIFIED PRODUCTION</span>
+    </div>
+
+    <!-- Dossier 01: Chivo Wallet -->
+    <article class="dossier-card reveal-left">
+      <div class="dossier-header">
+        <div>
+          <div class="dossier-code">DOSSIER #001 // NATIONAL LEGAL TENDER LEDGER</div>
+          <h3 class="dossier-name">Chivo Wallet — Core Banking & Ledger</h3>
+        </div>
+        <div class="dossier-tags">
+          <span class="dossier-tag">Bitcoin Core</span>
+          <span class="dossier-tag">Idempotent Settlement</span>
+          <span class="dossier-tag">Fintech Sovereign</span>
+          <span class="dossier-tag">4M+ Users</span>
+        </div>
+      </div>
+      <div class="dossier-body">
+        <div class="dossier-text">
+          <p>
+            {isEs 
+              ? 'Diseño e implementación de la arquitectura del backend de atención al cliente y liquidación bancaria para el ecosistema de moneda de curso legal de El Salvador.'
+              : 'Architecture and engineering leadership for customer support backend and banking settlement systems for the sovereign Bitcoin legal tender ecosystem in El Salvador.'}
+          </p>
+          <p>
+            {isEs
+              ? 'Garantía de idempotencia transaccional y reconciliación en tiempo real entre Bitcoin Lightning Network y el sistema bancario nacional, procesando millones de transferencias con trazabilidad auditable absoluta.'
+              : 'Enforced strict transactional idempotency and real-time reconciliation between Bitcoin Lightning Network and domestic fiat banking clearing, processing millions of transfers with zero loss.'}
+          </p>
+          <a class="dossier-action" href={`${base}${isEs ? '' : 'en/'}projects/chivo/`}>
+            {t.projects.caseStudyAction} →
+          </a>
+        </div>
+        <div class="dossier-specs-box">
+          <div class="spec-line"><span class="spec-k">{isEs ? 'Alcance:' : 'Scale:'}</span> <span class="spec-v">4,000,000+ {isEs ? 'ciudadanos' : 'citizens'}</span></div>
+          <div class="spec-line"><span class="spec-k">{isEs ? 'Rol:' : 'Role:'}</span> <span class="spec-v">Backend Systems Lead</span></div>
+          <div class="spec-line"><span class="spec-k">{isEs ? 'SLA Transaccional:' : 'SLA Guarantee:'}</span> <span class="spec-v">Zero Loss / Idempotent</span></div>
+          <div class="spec-line"><span class="spec-k">{isEs ? 'Liquidación:' : 'Settlement:'}</span> <span class="spec-v">Lightning & Fiat Clearing</span></div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Dossier 02: Proyecto Fénix -->
+    <article class="dossier-card reveal-right" style="--delay: 100ms">
+      <div class="dossier-header">
+        <div>
+          <div class="dossier-code">DOSSIER #002 // CLOUD-NATIVE RESILIENCE MESH</div>
+          <h3 class="dossier-name">Proyecto Fénix — Malla Empresarial AKS</h3>
+        </div>
+        <div class="dossier-tags">
+          <span class="dossier-tag">Azure Kubernetes</span>
+          <span class="dossier-tag">Terraform IaC</span>
+          <span class="dossier-tag">300+ Microservicios</span>
+          <span class="dossier-tag">100K+ req/s</span>
+        </div>
+      </div>
+      <div class="dossier-body">
+        <div class="dossier-text">
+          <p>
+            {isEs
+              ? 'Reestructuración arquitectónica y orquestación de más de 300 microservicios sobre Azure Kubernetes Service (AKS) para la Secretaría de Movilidad de Bogotá.'
+              : 'Architectural restructuring and orchestration of 300+ microservices on Azure Kubernetes Service (AKS) for the Bogota Mobility Secretariat.'}
+          </p>
+          <p>
+            {isEs
+              ? 'Implementación de módulos declarativos de Terraform, pipelines de despliegue continuo con zero-downtime y auto-escalado horizontal predictivo capaz de sostener picos masivos de demanda corporativa.'
+              : 'Implemented 100% declarative Terraform modules, zero-downtime CI/CD pipelines in Azure DevOps, and predictive horizontal autoscaling sustaining extreme municipal peak concurrency.'}
+          </p>
+          <a class="dossier-action" href={`${base}${isEs ? '' : 'en/'}projects/fenix/`}>
+            {t.projects.caseStudyAction} →
+          </a>
+        </div>
+        <div class="dossier-specs-box">
+          <div class="spec-line"><span class="spec-k">{isEs ? 'Topología:' : 'Topology:'}</span> <span class="spec-v">Multi-Región AKS Mesh</span></div>
+          <div class="spec-line"><span class="spec-k">{isEs ? 'Concurrencia:' : 'Concurrency:'}</span> <span class="spec-v">100,000+ req/s</span></div>
+          <div class="spec-line"><span class="spec-k">{isEs ? 'Disponibilidad:' : 'Availability:'}</span> <span class="spec-v">99.99% Enterprise SLA</span></div>
+          <div class="spec-line"><span class="spec-k">{isEs ? 'Automatización:' : 'Automation:'}</span> <span class="spec-v">Terraform IaC (100%)</span></div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Secondary Projects (WalletGuru, Mad Droids) -->
+    <div class="projects-grid" style="margin-top: 2rem;">
+      {
+        t.projects.items.slice(2).map((p, i) => {
+          const media = projectMedia[p.key];
+          return (
+            <a
+              class="card project-card reveal-zoom"
+              href={p.url}
+              target="_blank"
+              rel="noopener"
+              style={`--delay: ${i * 90}ms`}
+            >
+              <figure
+                class="card-media card-banner"
+                style={`--banner-from: ${media.from}; --banner-to: ${media.to}`}
+              >
+                <span class="banner-emblem" aria-hidden="true">{media.emblem}</span>
+                <span class="banner-initial" aria-hidden="true">{p.title.charAt(0)}</span>
+              </figure>
+              <div class="project-body">
+                <h3>{p.title}</h3>
+                <p>{p.desc}</p>
+                <ul class="chips chips-small">
+                  {p.tags.map((tag) => <li>{tag}</li>)}
+                </ul>
+                <span class="card-url">
+                  {`${p.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')} ↗`}
+                </span>
+              </div>
+            </a>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <!-- Core Practice Section -->
   <section id="work" class="section">
-    <h2 class="reveal"><span class="section-num">01</span> {t.work.title}</h2>
+    <div style="margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: baseline;">
+      <h2 class="reveal" style="margin: 0; font-size: 1.85rem; font-weight: 800;">
+        <span class="celeste-text" style="font-family: var(--font-mono); font-size: 0.85em; margin-right: 0.5rem;">02 //</span>
+        {t.work.title}
+      </h2>
+      <span style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim); text-transform: uppercase;">CORE PRACTICE</span>
+    </div>
     <p class="section-intro reveal">{t.work.intro}</p>
     <ol class="areas">
       {
@@ -80,59 +235,15 @@ const blogUrl = `${base}${lang === 'en' ? 'en/' : ''}blog/`;
     </ol>
   </section>
 
-  <section id="projects" class="section">
-    <h2 class="reveal"><span class="section-num">02</span> {t.projects.title}</h2>
-    <p class="section-intro reveal">{t.projects.intro}</p>
-    <div class="projects-grid">
-      {
-        t.projects.items.map((p, i) => {
-          const media = projectMedia[p.key];
-          const hasCaseStudy = 'caseStudy' in p && p.caseStudy;
-          const targetUrl = hasCaseStudy
-            ? `${base}${lang === 'en' ? 'en/' : ''}projects/${p.key}/`
-            : p.url;
-          return (
-            <a
-              class="card project-card reveal-zoom"
-              href={targetUrl}
-              target={hasCaseStudy ? undefined : '_blank'}
-              rel={hasCaseStudy ? undefined : 'noopener'}
-              style={`--delay: ${i * 90}ms`}
-            >
-              {media.image ? (
-                <figure class="card-media">
-                  <img src={`${base}${media.image}`} alt="" loading="lazy" />
-                </figure>
-              ) : (
-                <figure
-                  class="card-media card-banner"
-                  style={`--banner-from: ${media.from}; --banner-to: ${media.to}`}
-                >
-                  <span class="banner-emblem" aria-hidden="true">{media.emblem}</span>
-                  <span class="banner-initial" aria-hidden="true">{p.title.charAt(0)}</span>
-                </figure>
-              )}
-              <div class="project-body">
-                <h3>{p.title}</h3>
-                <p>{p.desc}</p>
-                <ul class="chips chips-small">
-                  {p.tags.map((tag) => <li>{tag}</li>)}
-                </ul>
-                <span class="card-url">
-                  {hasCaseStudy
-                    ? `${t.projects.caseStudyAction} →`
-                    : `${p.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')} ↗`}
-                </span>
-              </div>
-            </a>
-          );
-        })
-      }
-    </div>
-  </section>
-
+  <!-- Technical Content Section -->
   <section id="content" class="section">
-    <h2 class="reveal"><span class="section-num">03</span> {t.content.title}</h2>
+    <div style="margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: baseline;">
+      <h2 class="reveal" style="margin: 0; font-size: 1.85rem; font-weight: 800;">
+        <span class="celeste-text" style="font-family: var(--font-mono); font-size: 0.85em; margin-right: 0.5rem;">03 //</span>
+        {t.content.title}
+      </h2>
+      <span style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim); text-transform: uppercase;">PUBLIC LEARNING</span>
+    </div>
     <p class="section-intro reveal">{t.content.intro}</p>
     <div class="cards">
       {
@@ -142,7 +253,7 @@ const blogUrl = `${base}${lang === 'en' ? 'en/' : ''}blog/`;
             href={c.linkKey === 'blog' ? blogUrl : profile.contentLinks[c.linkKey]}
             target={c.linkKey === 'blog' ? undefined : '_blank'}
             rel={c.linkKey === 'blog' ? undefined : 'noopener'}
-            style={`--delay: ${i * 90}ms; --glow: ${c.glow}`}
+            style={`--delay: ${i * 90}ms;`}
           >
             <span class="content-icon">
               <img src={`${base}icons/${c.icon}.svg`} alt="" width="26" height="26" loading="lazy" />
@@ -156,8 +267,15 @@ const blogUrl = `${base}${lang === 'en' ? 'en/' : ''}blog/`;
     </div>
   </section>
 
+  <!-- About Section -->
   <section id="about" class="section">
-    <h2 class="reveal"><span class="section-num">04</span> {t.about.title}</h2>
+    <div style="margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: baseline;">
+      <h2 class="reveal" style="margin: 0; font-size: 1.85rem; font-weight: 800;">
+        <span class="celeste-text" style="font-family: var(--font-mono); font-size: 0.85em; margin-right: 0.5rem;">04 //</span>
+        {t.about.title}
+      </h2>
+      <span style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim); text-transform: uppercase;">CREDENTIALS & PROFILE</span>
+    </div>
     <div class="about-grid">
       <div class="reveal-left">
         <p>{t.about.p1}</p>
@@ -174,13 +292,15 @@ const blogUrl = `${base}${lang === 'en' ? 'en/' : ''}blog/`;
     </div>
   </section>
 
-  <section id="contact" class="section contact">
-    <h2 class="reveal"><span class="section-num">05</span> {t.contact.title}</h2>
-    <p class="reveal">{t.contact.lead}</p>
-    <div class="hero-cta reveal" style="--delay: 100ms">
+  <!-- Advisory & Contact Section -->
+  <section id="contact" class="advisory-box reveal">
+    <div class="docket-stamp">EXECUTIVE ADVISORY & DUE DILIGENCE</div>
+    <h2>{t.contact.title}</h2>
+    <p>{t.contact.lead}</p>
+    <div class="hero-cta" style="justify-content: center; margin-top: 1.5rem;">
       <a class="btn btn-primary btn-icon" href={`mailto:${profile.email}`}>
         <img src={`${base}icons/generic-email.svg`} alt="" width="18" height="18" />
-        {t.contact.emailButton}
+        {t.contact.emailButton} →
       </a>
       {
         profile.socials.slice(0, 2).map((s) => (

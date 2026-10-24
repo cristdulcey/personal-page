@@ -50,7 +50,7 @@ const site = Astro.site ?? 'https://cristdulcey.com';
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="canonical" href={new URL(urls[lang], site)} />
@@ -76,7 +76,18 @@ const site = Astro.site ?? 'https://cristdulcey.com';
     }
   </head>
   <body>
-    <div class="aurora" aria-hidden="true"></div>
+    <!-- Mission Telemetry Status Bar -->
+    <div class="mission-bar">
+      <div class="mission-indicator">
+        <span class="status-dot"></span>
+        <span>MISSION ARCHITECTURE // PROD ENVELOPE</span>
+      </div>
+      <div class="mission-coords">
+        <span>LATAM / GLOBAL INFRASTRUCTURE</span>
+        <span class="mission-sep">·</span>
+        <span class="mission-sla">SLA 99.999%</span>
+      </div>
+    </div>
 
     <header class="nav">
       <nav>
