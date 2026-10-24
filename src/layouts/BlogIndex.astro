@@ -1,5 +1,5 @@
 ---
-// Blog index for one language: lists the published posts, newest first.
+// Blog index for one language: lists published posts with search, category filtering & pagination.
 import { getCollection } from 'astro:content';
 import Base from './Base.astro';
 import { profile, translations, type Lang } from '../i18n';
@@ -19,6 +19,16 @@ const posts = (
   await getCollection('blog', ({ id, data }) => id.startsWith(`${lang}/`) && !data.draft)
 ).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
+// Calculate unique tags and their frequencies
+const tagCounts: Record<string, number> = {};
+posts.forEach((p) => {
+  p.data.tags.forEach((tag) => {
+    const k = tag.trim().toLowerCase();
+    tagCounts[k] = (tagCounts[k] || 0) + 1;
+  });
+});
+const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+
 // "es/my-post" -> "/blog/my-post/" (or "/en/blog/my-post/")
 const postUrl = (id: string) =>
   `${base}${lang === 'en' ? 'en/' : ''}blog/${id.split('/').slice(1).join('/')}/`;
@@ -33,33 +43,437 @@ const dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long',
   description={t.blog.intro}
   paths={{ es: 'blog/', en: 'en/blog/' }}
 >
-  <header class="page-header">
+  <header class="page-header" id="blog-controls-header">
+    <div class="docket-stamp reveal">
+      {lang === 'es' ? 'REGISTRO DE ARQUITECTURA & ESCRITURA' : 'ARCHITECTURE & WRITING REGISTRY'}
+    </div>
     <h1 class="reveal">{t.blog.title}</h1>
     <p class="reveal" style="--delay: 100ms">{t.blog.intro}</p>
+
+    <!-- Search & Category Filter Controls -->
+    <div class="blog-controls reveal" style="--delay: 160ms">
+      <!-- Search Input -->
+      <div class="blog-search-box">
+        <span class="blog-search-prefix" aria-hidden="true">❯ search _</span>
+        <input
+          id="blog-search-input"
+          class="blog-search-input"
+          type="search"
+          placeholder={t.blog.searchPlaceholder}
+          aria-label={t.blog.searchPlaceholder}
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <span class="blog-search-kbd" title="Presioná '/' para buscar">/</span>
+        <button id="blog-search-clear" class="blog-search-clear" type="button" aria-label={t.blog.searchClear} title={t.blog.searchClear}>
+          ✕
+        </button>
+      </div>
+
+      <!-- Category & Tag Chips -->
+      {
+        sortedTags.length > 0 && (
+          <div class="blog-categories" role="group" aria-label={t.blog.categoryLabel}>
+            <button
+              type="button"
+              class="blog-category-chip active"
+              data-tag="all"
+              aria-pressed="true"
+            >
+              <span>{t.blog.allCategories}</span>
+              <span class="chip-count">{posts.length}</span>
+            </button>
+            {sortedTags.map(([tag, count]) => (
+              <button
+                type="button"
+                class="blog-category-chip"
+                data-tag={tag}
+                aria-pressed="false"
+              >
+                <span>#{tag}</span>
+                <span class="chip-count">{count}</span>
+              </button>
+            ))}
+          </div>
+        )
+      }
+
+      <!-- Telemetry Results Bar & Page Size Selector -->
+      <div class="blog-telemetry-bar">
+        <span id="blog-telemetry-text" class="blog-telemetry-text">
+          {lang === 'es' ? `TOTAL: ${posts.length} ARTÍCULOS PUBLICADOS` : `TOTAL: ${posts.length} PUBLISHED ARTICLES`}
+        </span>
+        <div class="blog-page-size-selector">
+          <label for="blog-page-size">{t.blog.pageSizeLabel}</label>
+          <select id="blog-page-size" class="blog-page-size-select" aria-label={t.blog.pageSizeLabel}>
+            <option value="2">2</option>
+            <option value="4" selected>4</option>
+            <option value="6">6</option>
+            <option value="10">10</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </header>
 
   {
     posts.length === 0 ? (
       <p class="post-empty">{t.blog.empty}</p>
     ) : (
-      <div class="post-list">
-        {posts.map((post, i) => (
-          <a class="post-card reveal-zoom" href={postUrl(post.id)} style={`--delay: ${i * 80}ms`}>
-            <time datetime={post.data.date.toISOString()}>
-              {post.data.date.toLocaleDateString(locale, dateFormat)}
-            </time>
-            <h2>{post.data.title}</h2>
-            <p>{post.data.description}</p>
-            {post.data.tags.length > 0 && (
-              <ul class="chips chips-small">
-                {post.data.tags.map((tag) => (
-                  <li>{tag}</li>
-                ))}
-              </ul>
-            )}
-          </a>
-        ))}
-      </div>
+      <>
+        <!-- No Results Found State -->
+        <div id="blog-no-results" class="blog-no-results" style="display: none;">
+          <p>{t.blog.noResults}</p>
+          <button id="blog-reset-filters" class="btn btn-primary" type="button">
+            {t.blog.resetFilters}
+          </button>
+        </div>
+
+        <!-- Post Cards Grid -->
+        <div id="blog-post-list" class="post-list">
+          {posts.map((post, i) => (
+            <article
+              class="post-card reveal-zoom"
+              data-title={post.data.title.toLowerCase()}
+              data-desc={post.data.description.toLowerCase()}
+              data-tags={post.data.tags.join(',').toLowerCase()}
+              style={`--delay: ${i * 80}ms`}
+            >
+              <time datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString(locale, dateFormat)}
+              </time>
+              <h2>
+                <a href={postUrl(post.id)} style="text-decoration: none; color: inherit;">
+                  {post.data.title}
+                </a>
+              </h2>
+              <p>{post.data.description}</p>
+              {post.data.tags.length > 0 && (
+                <ul class="chips chips-small">
+                  {post.data.tags.map((tag) => (
+                    <li>
+                      <button
+                        type="button"
+                        class="chip-filter-btn"
+                        data-tag={tag}
+                        title={`Filtrar por #${tag}`}
+                      >
+                        #{tag}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </article>
+          ))}
+        </div>
+
+        <!-- Dynamic Pagination Bar -->
+        <nav id="blog-pagination" class="blog-pagination" aria-label="Paginación del blog">
+          <button id="blog-prev-btn" class="pagination-nav-btn" type="button">
+            {t.blog.prevPage}
+          </button>
+          <div id="blog-pages-list" class="blog-pages-list">
+            <!-- Dynamically populated by client script -->
+          </div>
+          <button id="blog-next-btn" class="pagination-nav-btn" type="button">
+            {t.blog.nextPage}
+          </button>
+        </nav>
+      </>
     )
   }
+
+  <script is:inline define:vars={{ defaultPageSize: 4 }}>
+    (function () {
+      const searchInput = document.getElementById('blog-search-input');
+      const searchClear = document.getElementById('blog-search-clear');
+      const categoryChips = document.querySelectorAll('.blog-category-chip');
+      const postCards = Array.from(document.querySelectorAll('.post-card[data-tags]'));
+      const telemetryBar = document.getElementById('blog-telemetry-text');
+      const emptyState = document.getElementById('blog-no-results');
+      const postList = document.getElementById('blog-post-list');
+      const paginationContainer = document.getElementById('blog-pagination');
+      const prevBtn = document.getElementById('blog-prev-btn');
+      const nextBtn = document.getElementById('blog-next-btn');
+      const pagesList = document.getElementById('blog-pages-list');
+      const pageSizeSelect = document.getElementById('blog-page-size');
+      const resetBtn = document.getElementById('blog-reset-filters');
+
+      if (!postCards.length) return;
+
+      let currentQuery = '';
+      let currentTag = 'all';
+      let currentPage = 1;
+      let pageSize = defaultPageSize || 4;
+
+      // Read initial state from URL query parameters
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('q')) {
+        currentQuery = params.get('q').trim().toLowerCase();
+        if (searchInput) searchInput.value = params.get('q');
+      }
+      if (params.get('tag')) {
+        currentTag = params.get('tag').trim().toLowerCase();
+      }
+      if (params.get('page')) {
+        const p = parseInt(params.get('page'), 10);
+        if (!isNaN(p) && p > 0) currentPage = p;
+      }
+      if (params.get('size')) {
+        const s = parseInt(params.get('size'), 10);
+        if (!isNaN(s) && [2, 4, 6, 10].includes(s)) pageSize = s;
+      }
+
+      function syncUrl() {
+        const url = new URL(window.location.href);
+        if (currentQuery) url.searchParams.set('q', currentQuery);
+        else url.searchParams.delete('q');
+
+        if (currentTag && currentTag !== 'all') url.searchParams.set('tag', currentTag);
+        else url.searchParams.delete('tag');
+
+        if (currentPage > 1) url.searchParams.set('page', String(currentPage));
+        else url.searchParams.delete('page');
+
+        if (pageSize !== 4) url.searchParams.set('size', String(pageSize));
+        else url.searchParams.delete('size');
+
+        window.history.replaceState({}, '', url.toString());
+      }
+
+      function filterAndRender() {
+        // 1. Filter posts
+        const matched = [];
+        postCards.forEach((card) => {
+          const title = card.getAttribute('data-title') || '';
+          const desc = card.getAttribute('data-desc') || '';
+          const tags = card.getAttribute('data-tags') || '';
+
+          const matchesQuery =
+            !currentQuery ||
+            title.includes(currentQuery) ||
+            desc.includes(currentQuery) ||
+            tags.includes(currentQuery);
+
+          const matchesTag =
+            currentTag === 'all' ||
+            tags
+              .split(',')
+              .map((t) => t.trim())
+              .includes(currentTag);
+
+          if (matchesQuery && matchesTag) {
+            matched.push(card);
+          }
+        });
+
+        const totalResults = matched.length;
+        const totalPages = Math.ceil(totalResults / pageSize) || 1;
+        if (currentPage > totalPages) currentPage = totalPages;
+        if (currentPage < 1) currentPage = 1;
+
+        const startIndex = (currentPage - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+
+        // 2. Manage card visibility for pagination
+        postCards.forEach((card) => {
+          card.style.display = 'none';
+        });
+
+        matched.forEach((card, index) => {
+          if (index >= startIndex && index < endIndex) {
+            card.style.display = 'flex';
+          }
+        });
+
+        // 3. Toggle empty state
+        if (emptyState) emptyState.style.display = totalResults === 0 ? 'block' : 'none';
+        if (postList) postList.style.display = totalResults === 0 ? 'none' : 'grid';
+
+        // 4. Update category chips
+        categoryChips.forEach((chip) => {
+          const tag = chip.getAttribute('data-tag') || 'all';
+          if (tag === currentTag) {
+            chip.classList.add('active');
+            chip.setAttribute('aria-pressed', 'true');
+          } else {
+            chip.classList.remove('active');
+            chip.setAttribute('aria-pressed', 'false');
+          }
+        });
+
+        // 5. Update clear search button
+        if (searchClear) searchClear.style.display = currentQuery ? 'block' : 'none';
+
+        // 6. Update telemetry text
+        if (telemetryBar) {
+          const start = totalResults === 0 ? 0 : startIndex + 1;
+          const end = Math.min(endIndex, totalResults);
+          const tagLabel = currentTag === 'all' ? 'TODOS' : `#${currentTag.toUpperCase()}`;
+          const queryLabel = currentQuery ? ` // QUERY: "${currentQuery}"` : '';
+          telemetryBar.textContent = `RESULTADOS: ${start}–${end} DE ${totalResults} // FILTRO: ${tagLabel}${queryLabel}`;
+        }
+
+        // 7. Render pagination controls
+        if (paginationContainer) {
+          if (totalPages <= 1) {
+            paginationContainer.style.display = 'none';
+          } else {
+            paginationContainer.style.display = 'flex';
+
+            if (prevBtn) prevBtn.disabled = currentPage <= 1;
+            if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
+
+            if (pagesList) {
+              pagesList.innerHTML = '';
+              for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                btn.textContent = String(i);
+                btn.setAttribute('aria-label', `Página ${i}`);
+                btn.addEventListener('click', () => {
+                  currentPage = i;
+                  filterAndRender();
+                  syncUrl();
+                  scrollToControls();
+                });
+                pagesList.appendChild(btn);
+              }
+            }
+          }
+        }
+
+        if (pageSizeSelect) {
+          pageSizeSelect.value = String(pageSize);
+        }
+      }
+
+      function scrollToControls() {
+        const target = document.getElementById('blog-controls-header');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      // Input listener with debouncing
+      if (searchInput) {
+        let timer;
+        searchInput.addEventListener('input', (e) => {
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            currentQuery = e.target.value.trim().toLowerCase();
+            currentPage = 1;
+            filterAndRender();
+            syncUrl();
+          }, 120);
+        });
+
+        searchInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            searchInput.value = '';
+            currentQuery = '';
+            currentPage = 1;
+            filterAndRender();
+            syncUrl();
+          }
+        });
+      }
+
+      if (searchClear) {
+        searchClear.addEventListener('click', () => {
+          if (searchInput) searchInput.value = '';
+          currentQuery = '';
+          currentPage = 1;
+          filterAndRender();
+          syncUrl();
+          if (searchInput) searchInput.focus();
+        });
+      }
+
+      categoryChips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+          currentTag = chip.getAttribute('data-tag') || 'all';
+          currentPage = 1;
+          filterAndRender();
+          syncUrl();
+        });
+      });
+
+      // Filter clicks from inside card tag chips
+      document.querySelectorAll('.chip-filter-btn').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const tag = btn.getAttribute('data-tag');
+          if (tag) {
+            currentTag = tag.trim().toLowerCase();
+            currentPage = 1;
+            filterAndRender();
+            syncUrl();
+            scrollToControls();
+          }
+        });
+      });
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          currentQuery = '';
+          currentTag = 'all';
+          currentPage = 1;
+          if (searchInput) searchInput.value = '';
+          filterAndRender();
+          syncUrl();
+        });
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          if (currentPage > 1) {
+            currentPage--;
+            filterAndRender();
+            syncUrl();
+            scrollToControls();
+          }
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          currentPage++;
+          filterAndRender();
+          syncUrl();
+          scrollToControls();
+        });
+      }
+
+      if (pageSizeSelect) {
+        pageSizeSelect.addEventListener('change', (e) => {
+          pageSize = parseInt(e.target.value, 10) || 4;
+          currentPage = 1;
+          filterAndRender();
+          syncUrl();
+        });
+      }
+
+      // Keyboard shortcut: '/' focuses search
+      window.addEventListener('keydown', (e) => {
+        if (
+          e.key === '/' &&
+          document.activeElement !== searchInput &&
+          !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)
+        ) {
+          e.preventDefault();
+          if (searchInput) {
+            searchInput.focus();
+            searchInput.select();
+          }
+        }
+      });
+
+      // Initial filter & render
+      filterAndRender();
+    })();
+  </script>
 </Base>
