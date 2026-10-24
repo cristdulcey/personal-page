@@ -206,7 +206,7 @@ export const translations = {
       lead: 'Asesoro a CTOs, VPs de Ingeniería y comités técnicos en auditorías de sistemas distribuidos, diseño de infraestructuras críticas y modernización de plataformas de alta concurrencia.',
       emailButton: 'Iniciar Consulta Técnica',
     },
-    footer: 'Sistemas Distribuidos & Arquitectura de Misión Crítica · Bogotá, Colombia',
+    footer: 'Sistemas Distribuidos & Arquitectura de Misión Crítica · Villavicencio, Colombia',
   },
   en: {
     meta: {
@@ -371,6 +371,6 @@ export const translations = {
       lead: 'Advising CTOs, VPs of Engineering, and technical leaders on distributed systems resilience, sovereign-scale infrastructure design, and cloud-native modernization.',
       emailButton: 'Initiate Technical Advisory',
     },
-    footer: 'Distributed Systems & Mission-Critical Architecture · Bogota, Colombia',
+    footer: 'Distributed Systems & Mission-Critical Architecture · Villavicencio, Colombia',
   },
 } satisfies Record<Lang, unknown>;
