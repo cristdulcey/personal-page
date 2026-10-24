@@ -373,4 +373,55 @@ const copy = {
   .console-hint {
     font-style: italic;
   }
+
+  /* Light Mode Clean Up */
+  :global(html.light) .telemetry-console {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  :global(html.light) .console-head {
+    background: #f8fafc;
+    border-bottom-color: #e2e8f0;
+  }
+
+  :global(html.light) .console-title code {
+    color: #475569;
+  }
+
+  :global(html.light) .console-tabs {
+    background: #f1f5f9;
+    border-bottom-color: #e2e8f0;
+  }
+
+  :global(html.light) .console-tab {
+    color: #64748b;
+  }
+
+  :global(html.light) .console-tab.active {
+    background: #ffffff;
+    color: var(--amber, #d97706);
+    border-bottom-color: var(--amber, #d97706);
+  }
+
+  :global(html.light) .console-tab:hover {
+    color: #0f172a;
+    background: #f8fafc;
+  }
+
+  :global(html.light) .panel-meta {
+    border-bottom-color: #e2e8f0;
+  }
+
+  :global(html.light) .meta-tag {
+    background: var(--amber-bg, rgba(217, 119, 6, 0.1));
+    color: var(--amber, #d97706);
+  }
+
+  :global(html.light) .console-foot {
+    background: #f8fafc;
+    border-top-color: #e2e8f0;
+    color: #64748b;
+  }
 </style>

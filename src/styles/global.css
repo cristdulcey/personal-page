@@ -326,20 +326,20 @@ main {
 
 /* Hero */
 .hero {
-  min-height: calc(100svh - 100px);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 3.5rem;
-  padding: 3.5rem 0 2.5rem;
+  padding: 2.75rem 0 2.5rem;
   border-bottom: 1px solid var(--border);
 }
 
 @media (max-width: 960px) {
   .hero {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 2.5rem;
+    align-items: stretch;
+    gap: 2rem;
+    padding: 2rem 0;
   }
 }
 
@@ -665,9 +665,9 @@ main {
 .advisory-box {
   background: linear-gradient(135deg, var(--amber-bg) 0%, var(--panel) 100%);
   border: 1px solid var(--amber-border);
-  border-radius: 8px;
-  padding: 3rem 2rem;
-  margin-top: 4rem;
+  border-radius: 14px;
+  padding: 2.5rem 1.75rem;
+  margin-top: 2.75rem;
   text-align: center;
 }
 
@@ -837,8 +837,14 @@ html.light .socials a:hover {
 
 /* Sections */
 .section {
-  padding: 5.5rem 0;
+  padding: 3.25rem 0;
   border-top: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 2.5rem 0;
+  }
 }
 
 .section h2 {
