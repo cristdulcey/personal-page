@@ -1259,6 +1259,271 @@ footer {
   padding: 2.5rem 0 5.5rem;
 }
 
+/* Blog Interactive Controls (Search, Categories, Telemetry & Pagination) */
+.blog-controls {
+  margin: 2rem 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.blog-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.blog-search-box:focus-within {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px var(--amber-bg);
+}
+
+.blog-search-prefix {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--amber);
+  padding: 0 0.85rem 0 1.25rem;
+  user-select: none;
+  font-weight: 700;
+}
+
+.blog-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  padding: 0.9rem 0;
+  outline: none;
+}
+
+.blog-search-input::placeholder {
+  color: var(--text-dim);
+  opacity: 0.7;
+}
+
+.blog-search-clear {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1rem;
+  padding: 0 1.25rem;
+  cursor: pointer;
+  display: none;
+  transition: color 0.2s;
+}
+
+.blog-search-clear:hover {
+  color: var(--text-bright);
+}
+
+.blog-search-kbd {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.15rem 0.45rem;
+  margin-right: 1rem;
+  user-select: none;
+}
+
+html.light .blog-search-kbd {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Category & Tag Pills */
+.blog-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.blog-category-chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.45rem 0.9rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.blog-category-chip:hover {
+  border-color: var(--border-strong);
+  color: var(--text-bright);
+  background: var(--surface-hover);
+}
+
+.blog-category-chip.active {
+  background: var(--amber);
+  color: #07090e;
+  border-color: var(--amber-bright);
+  font-weight: 700;
+}
+
+.blog-category-chip .chip-count {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+.blog-category-chip.active .chip-count {
+  opacity: 1;
+}
+
+/* Telemetry & Results Status Bar */
+.blog-telemetry-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  margin-top: 0.5rem;
+}
+
+.blog-telemetry-text {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.blog-page-size-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-dim);
+}
+
+.blog-page-size-select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Empty State */
+.blog-no-results {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  margin: 2rem 0 4rem;
+}
+
+.blog-no-results p {
+  color: var(--text-dim);
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Pagination Bar */
+.blog-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 3rem 0 5rem;
+  flex-wrap: wrap;
+}
+
+.pagination-nav-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.55rem 1rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pagination-nav-btn:hover:not(:disabled) {
+  border-color: var(--amber);
+  color: var(--amber);
+  background: var(--surface-hover);
+}
+
+.pagination-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.blog-pages-list {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.pagination-btn {
+  min-width: 2.4rem;
+  height: 2.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pagination-btn:hover {
+  color: var(--text-bright);
+  border-color: var(--border-strong);
+}
+
+.pagination-btn.active {
+  background: var(--amber);
+  color: #07090e;
+  border-color: var(--amber-bright);
+  font-weight: 800;
+}
+
+/* Card Chip Filter Trigger */
+.chip-filter-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.chip-filter-btn:hover {
+  color: var(--amber);
+}
+
 /* Blog post page */
 .post {
   max-width: 58rem;
