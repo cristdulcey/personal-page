@@ -32,7 +32,7 @@ const isEs = lang === 'es';
   <!-- Hero Section -->
   <section id="home" class="hero">
     <div class="hero-text">
-      <div class="docket-stamp reveal">ARCHITECTURAL DOSSIER // CRISTIAN DULCEY</div>
+      <div class="docket-stamp reveal">{isEs ? 'DOSSIER ARQUITECTÓNICO // CRISTIAN DULCEY' : 'ARCHITECTURAL DOSSIER // CRISTIAN DULCEY'}</div>
       <h1 class="reveal" style="--delay: 80ms">
         {isEs ? 'Arquitectura de Sistemas de ' : 'High-Reliability Architecture for '}
         <span class="amber-text">{isEs ? 'Misión Crítica' : 'Sovereign Scale'}</span>.
@@ -51,22 +51,22 @@ const isEs = lang === 'es';
       <!-- Specification Strip -->
       <div class="spec-grid reveal" style="--delay: 340ms">
         <div class="spec-box">
-          <span class="spec-label">Sovereign Scale</span>
+          <span class="spec-label">{isEs ? 'Escala Soberana' : 'Sovereign Scale'}</span>
           <div class="spec-value">4M+</div>
           <div class="spec-sub">{isEs ? 'Usuarios en Chivo Wallet' : 'Citizens on Chivo Wallet'}</div>
         </div>
         <div class="spec-box">
-          <span class="spec-label">Distributed Cluster</span>
+          <span class="spec-label">{isEs ? 'Clúster Distribuido' : 'Distributed Cluster'}</span>
           <div class="spec-value">300+</div>
           <div class="spec-sub">{isEs ? 'Microservicios en Azure K8s' : 'Microservices on Azure K8s'}</div>
         </div>
         <div class="spec-box">
-          <span class="spec-label">Throughput Peak</span>
+          <span class="spec-label">{isEs ? 'Pico de Throughput' : 'Throughput Peak'}</span>
           <div class="spec-value">100K+</div>
           <div class="spec-sub">{isEs ? 'Req/seg en concurrencia' : 'Peak req/s concurrency'}</div>
         </div>
         <div class="spec-box">
-          <span class="spec-label">Production Tenure</span>
+          <span class="spec-label">{isEs ? 'Trayectoria Técnica' : 'Production Tenure'}</span>
           <div class="spec-value">15+</div>
           <div class="spec-sub">{isEs ? 'Años en arquitectura' : 'Years in architecture'}</div>
         </div>
@@ -85,7 +85,7 @@ const isEs = lang === 'es';
             <span class="portrait-badge">GDE · MVP</span>
           </div>
           <span class="portrait-title">Lead Systems Architect</span>
-          <span class="portrait-location">Villavicencio, CO · Sovereign Infrastructure</span>
+          <span class="portrait-location">{isEs ? 'Villavicencio, CO · Infraestructura Soberana' : 'Villavicencio, CO · Sovereign Infrastructure'}</span>
         </div>
       </div>
 
@@ -100,21 +100,21 @@ const isEs = lang === 'es';
         <span class="celeste-text" style="font-family: var(--font-mono); font-size: 0.85em; margin-right: 0.5rem;">01 //</span>
         {isEs ? 'Sistemas de Misión Crítica & Casos de Estudio' : 'Mission-Critical Systems & Case Studies'}
       </h2>
-      <span style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim); text-transform: uppercase;">VERIFIED PRODUCTION</span>
+      <span style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim); text-transform: uppercase;">{isEs ? 'PRODUCCIÓN VERIFICADA' : 'VERIFIED PRODUCTION'}</span>
     </div>
 
     <!-- Dossier 01: Chivo Wallet -->
     <article class="dossier-card reveal-left">
       <div class="dossier-header">
         <div>
-          <div class="dossier-code">DOSSIER #001 // NATIONAL LEGAL TENDER LEDGER</div>
+          <div class="dossier-code">{isEs ? 'DOSSIER #001 // LEDGER DE CURSO LEGAL NACIONAL' : 'DOSSIER #001 // NATIONAL LEGAL TENDER LEDGER'}</div>
           <h3 class="dossier-name">Chivo Wallet — Core Banking & Ledger</h3>
         </div>
         <div class="dossier-tags">
           <span class="dossier-tag">Bitcoin Core</span>
           <span class="dossier-tag">Idempotent Settlement</span>
           <span class="dossier-tag">Fintech Sovereign</span>
-          <span class="dossier-tag">4M+ Users</span>
+          <span class="dossier-tag">{isEs ? '4M+ Usuarios' : '4M+ Users'}</span>
         </div>
       </div>
       <div class="dossier-body">
@@ -146,7 +146,7 @@ const isEs = lang === 'es';
     <article class="dossier-card reveal-right" style="--delay: 100ms">
       <div class="dossier-header">
         <div>
-          <div class="dossier-code">DOSSIER #002 // CLOUD-NATIVE RESILIENCE MESH</div>
+          <div class="dossier-code">{isEs ? 'DOSSIER #002 // MALLA DE RESILIENCIA CLOUD-NATIVE' : 'DOSSIER #002 // CLOUD-NATIVE RESILIENCE MESH'}</div>
           <h3 class="dossier-name">Proyecto Fénix — Malla Empresarial AKS</h3>
         </div>
         <div class="dossier-tags">
@@ -225,7 +225,7 @@ const isEs = lang === 'es';
         <span class="celeste-text" style="font-family: var(--font-mono); font-size: 0.85em; margin-right: 0.5rem;">02 //</span>
         {t.work.title}
       </h2>
-      <span style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim); text-transform: uppercase;">CORE PRACTICE</span>
+      <span style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim); text-transform: uppercase;">{isEs ? 'PRÁCTICA PRINCIPAL' : 'CORE PRACTICE'}</span>
     </div>
     <p class="section-intro reveal">{t.work.intro}</p>
     <ol class="areas">
@@ -248,7 +248,7 @@ const isEs = lang === 'es';
         <span class="celeste-text" style="font-family: var(--font-mono); font-size: 0.85em; margin-right: 0.5rem;">03 //</span>
         {t.content.title}
       </h2>
-      <span style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim); text-transform: uppercase;">PUBLIC LEARNING</span>
+      <span style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim); text-transform: uppercase;">{isEs ? 'DIVULGACIÓN TÉCNICA' : 'PUBLIC LEARNING'}</span>
     </div>
     <p class="section-intro reveal">{t.content.intro}</p>
     <div class="cards">
@@ -280,7 +280,7 @@ const isEs = lang === 'es';
         <span class="celeste-text" style="font-family: var(--font-mono); font-size: 0.85em; margin-right: 0.5rem;">04 //</span>
         {t.about.title}
       </h2>
-      <span style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim); text-transform: uppercase;">CREDENTIALS & PROFILE</span>
+      <span style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim); text-transform: uppercase;">{isEs ? 'CREDENCIALES Y PERFIL' : 'CREDENTIALS & PROFILE'}</span>
     </div>
     <div class="about-grid">
       <div class="reveal-left">
@@ -300,7 +300,7 @@ const isEs = lang === 'es';
 
   <!-- Advisory & Contact Section -->
   <section id="contact" class="advisory-box reveal">
-    <div class="docket-stamp">EXECUTIVE ADVISORY & DUE DILIGENCE</div>
+    <div class="docket-stamp">{isEs ? 'CONSULTORÍA EJECUTIVA & DUE DILIGENCE' : 'EXECUTIVE ADVISORY & DUE DILIGENCE'}</div>
     <h2>{t.contact.title}</h2>
     <p>{t.contact.lead}</p>
     <div class="hero-cta" style="justify-content: center; margin-top: 1.5rem;">
