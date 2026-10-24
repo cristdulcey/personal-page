@@ -1,0 +1,378 @@
+---
+// Interactive Architecture & Telemetry Console (Linear/Vercel style).
+interface Props {
+  lang: 'es' | 'en';
+}
+
+const { lang } = Astro.props;
+
+const copy = {
+  es: {
+    terminalTitle: 'telemetria-arquitectura.sh',
+    liveStatus: 'EN VIVO',
+    tabFenix: 'Proyecto Fénix (Azure)',
+    tabChivo: 'Chivo Wallet (Core Bancario)',
+    fenixMeta: 'Secretaría de Movilidad · 300+ Microservicios',
+    chivoMeta: 'Gobierno de El Salvador · Bitcoin Legal Tender',
+    fenixMetrics: [
+      { label: 'INFRAESTRUCTURA', value: 'Microsoft Azure (East US 2)' },
+      { label: 'ESTADO DE CLÚSTER', value: '312 / 312 Microservicios Operativos', status: 'ok' },
+      { label: 'AUTOMATIZACIÓN IaC', value: 'Módulos Terraform v1.8 (100% Declarativo)' },
+      { label: 'PIPELINES CI/CD', value: 'Azure DevOps (Zero-Downtime Releases)', status: 'ok' },
+    ],
+    chivoMetrics: [
+      { label: 'NÚCLEO FINANCIERO', value: 'Core Bancario Transaccional & Ledger' },
+      { label: 'RED & PROTOCOLO', value: 'Bitcoin Lightning + Rieles Multidivisa', status: 'ok' },
+      { label: 'CONCURRENCIA & COLA', value: 'Mesa de Ayuda de Misión Crítica (<22ms)', status: 'ok' },
+      { label: 'CONSISTENCIA', value: 'Idempotencia estricta en liquidaciones' },
+    ],
+    switchPrompt: 'Clic en una pestaña para inspeccionar arquitectura ↗',
+  },
+  en: {
+    terminalTitle: 'architecture-telemetry.sh',
+    liveStatus: 'LIVE',
+    tabFenix: 'Fénix Project (Azure)',
+    tabChivo: 'Chivo Wallet (Core Banking)',
+    fenixMeta: 'Bogota Mobility Secretariat · 300+ Microservices',
+    chivoMeta: 'Government of El Salvador · Bitcoin Legal Tender',
+    fenixMetrics: [
+      { label: 'INFRASTRUCTURE', value: 'Microsoft Azure (East US 2)' },
+      { label: 'CLUSTER HEALTH', value: '312 / 312 Healthy Microservices', status: 'ok' },
+      { label: 'IaC AUTOMATION', value: 'Terraform Modules v1.8 (100% Declarative)' },
+      { label: 'CI/CD PIPELINES', value: 'Azure DevOps (Zero-Downtime Releases)', status: 'ok' },
+    ],
+    chivoMetrics: [
+      { label: 'TRANSACTIONAL CORE', value: 'Core Banking Engine & Multi-Currency Ledger' },
+      { label: 'NETWORK & PROTOCOL', value: 'Bitcoin Lightning + Sovereign Rails', status: 'ok' },
+      { label: 'DISPATCH CONCURRENCY', value: 'Mission-Critical Operations Queue (<22ms)', status: 'ok' },
+      { label: 'CONSISTENCY', value: 'Strict Idempotency across settlements' },
+    ],
+    switchPrompt: 'Click a tab to inspect architecture telemetry ↗',
+  },
+}[lang];
+---
+
+<div class="telemetry-console">
+  <!-- Console Window Header -->
+  <div class="console-head">
+    <div class="window-controls">
+      <span class="win-dot dot-close"></span>
+      <span class="win-dot dot-min"></span>
+      <span class="win-dot dot-max"></span>
+    </div>
+    <div class="console-title">
+      <code>{copy.terminalTitle}</code>
+    </div>
+    <div class="console-live-badge">
+      <span class="live-dot" aria-hidden="true">●</span>
+      <span>{copy.liveStatus}</span>
+    </div>
+  </div>
+
+  <!-- Tab Selector -->
+  <div class="console-tabs" role="tablist">
+    <button
+      type="button"
+      class="console-tab active"
+      data-target="fenix"
+      role="tab"
+      aria-selected="true"
+    >
+      <span class="tab-icon">⚡</span>
+      <span class="tab-text">{copy.tabFenix}</span>
+    </button>
+    <button
+      type="button"
+      class="console-tab"
+      data-target="chivo"
+      role="tab"
+      aria-selected="false"
+    >
+      <span class="tab-icon">₿</span>
+      <span class="tab-text">{copy.tabChivo}</span>
+    </button>
+  </div>
+
+  <!-- Panels -->
+  <div class="console-body">
+    <!-- Panel 1: Fénix -->
+    <div class="console-panel active" id="panel-fenix">
+      <div class="panel-meta">
+        <span class="meta-tag">MICROSOFT AZURE</span>
+        <span class="meta-desc">{copy.fenixMeta}</span>
+      </div>
+      <div class="metrics-list">
+        {
+          copy.fenixMetrics.map((m) => (
+            <div class="telemetry-row">
+              <span class="row-label">{m.label}</span>
+              <span class="row-value">
+                {m.status === 'ok' && <span class="status-indicator">●</span>}
+                {m.value}
+              </span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Panel 2: Chivo -->
+    <div class="console-panel" id="panel-chivo">
+      <div class="panel-meta">
+        <span class="meta-tag">FINANCIAL LEDGER</span>
+        <span class="meta-desc">{copy.chivoMeta}</span>
+      </div>
+      <div class="metrics-list">
+        {
+          copy.chivoMetrics.map((m) => (
+            <div class="telemetry-row">
+              <span class="row-label">{m.label}</span>
+              <span class="row-value">
+                {m.status === 'ok' && <span class="status-indicator">●</span>}
+                {m.value}
+              </span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Console Footer -->
+  <div class="console-foot">
+    <span class="console-cursor">$</span>
+    <span class="console-hint">{copy.switchPrompt}</span>
+  </div>
+</div>
+
+<script>
+  // Tab switching inside the telemetry console
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.console-tab');
+  const panels = document.querySelectorAll<HTMLDivElement>('.console-panel');
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const target = tab.getAttribute('data-target');
+
+      tabs.forEach((t) => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+
+      panels.forEach((p) => {
+        if (p.id === `panel-${target}`) {
+          p.classList.add('active');
+        } else {
+          p.classList.remove('active');
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .telemetry-console {
+    background: rgba(14, 17, 24, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow:
+      0 20px 50px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .console-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .window-controls {
+    display: flex;
+    gap: 6px;
+  }
+
+  .win-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .dot-close {
+    background: #ef4444;
+  }
+  .dot-min {
+    background: #f59e0b;
+  }
+  .dot-max {
+    background: #10b981;
+  }
+
+  .console-title {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+  }
+
+  .console-live-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #34d399;
+  }
+
+  .live-dot {
+    color: #10b981;
+    font-size: 0.85rem;
+  }
+
+  .console-tabs {
+    display: flex;
+    background: rgba(0, 0, 0, 0.35);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .console-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 0.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .console-tab:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .console-tab.active {
+    color: #60a5fa;
+    border-bottom-color: #2563eb;
+    background: rgba(37, 99, 235, 0.08);
+  }
+
+  .console-body {
+    padding: 1.25rem;
+    min-height: 200px;
+  }
+
+  .console-panel {
+    display: none;
+    animation: fadeIn 0.25s ease-in-out;
+  }
+
+  .console-panel.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .panel-meta {
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .meta-tag {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #60a5fa;
+    background: rgba(37, 99, 235, 0.15);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  .meta-desc {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+  }
+
+  .metrics-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .telemetry-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.82rem;
+    gap: 1rem;
+  }
+
+  .row-label {
+    color: #9499ad;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+
+  .row-value {
+    color: #e2e8f0;
+    font-weight: 500;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .status-indicator {
+    color: #10b981;
+    margin-right: 4px;
+  }
+
+  .console-foot {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    background: rgba(0, 0, 0, 0.4);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+
+  .console-cursor {
+    color: #2563eb;
+    font-weight: 800;
+  }
+
+  .console-hint {
+    font-style: italic;
+  }
+</style>
