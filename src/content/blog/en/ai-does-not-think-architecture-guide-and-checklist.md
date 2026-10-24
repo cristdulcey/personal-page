@@ -42,7 +42,7 @@ The model does not consult a live database or run an interpreter while typing. I
 
 One of the most expensive architectural mistakes today is reaching for an LLM to solve problems that traditional, deterministic code handles faster, cheaper, and reliably. Here is the 4-tier decision framework:
 
-![tArchitectural Decision Map](/blog/decision-map-4-levels-en.svg)
+![Architectural Decision Map](/blog/decision-map-4-levels-en.svg)
 
 If your requirements are governed by deterministic business logic, **use traditional code**. You save latency, eliminate token costs, and avoid non-deterministic anomalies in production.
 

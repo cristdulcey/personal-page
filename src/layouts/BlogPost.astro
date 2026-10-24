@@ -14,10 +14,22 @@ const { lang, post } = Astro.props;
 const t = translations[lang];
 const { Content } = await render(post);
 
+// Slugs translation dictionary between languages
+const translationPairs: Record<string, string> = {
+  'la-ia-no-piensa-guia-arquitectura-y-checklist': 'ai-does-not-think-architecture-guide-and-checklist',
+  'ai-does-not-think-architecture-guide-and-checklist': 'la-ia-no-piensa-guia-arquitectura-y-checklist',
+  '1000-seguidores-en-instagram': '1000-instagram-followers',
+  '1000-instagram-followers': '1000-seguidores-en-instagram',
+  'hola-mundo': 'hello-world',
+  'hello-world': 'hola-mundo',
+};
+
 const slug = post.id.split('/').slice(1).join('/');
+const pairedSlug = translationPairs[slug];
+
 const paths: Record<Lang, string> = {
-  es: lang === 'es' ? `blog/${slug}/` : 'blog/',
-  en: lang === 'en' ? `en/blog/${slug}/` : 'en/blog/',
+  es: lang === 'es' ? `blog/${slug}/` : pairedSlug ? `blog/${pairedSlug}/` : 'blog/',
+  en: lang === 'en' ? `en/blog/${slug}/` : pairedSlug ? `en/blog/${pairedSlug}/` : 'en/blog/',
 };
 
 const base = import.meta.env.BASE_URL.endsWith('/')
@@ -34,7 +46,7 @@ const dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long',
   title={`${post.data.title} — ${profile.name}`}
   description={post.data.description}
   paths={paths}
-  hreflangAlternates={false}
+  hreflangAlternates={Boolean(pairedSlug)}
 >
   <article class="post">
     <a class="back-link" href={blogIndex}>← {t.blog.back}</a>
