@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 260" width="100%" height="auto" style="background:#0b0d14;border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-family:system-ui,-apple-system,sans-serif;">
+  <defs>
+    <marker id="arrow-wa-en" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#7c3aed" />
+    </marker>
+    <marker id="arrow-wa-en-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#fbbf24" />
+    </marker>
+  </defs>
+
+  <text x="24" y="32" fill="#e5e7eb" font-size="15" font-weight="bold">One write of yours, many underneath</text>
+
+  <rect x="20" y="92" width="170" height="80" rx="10" fill="#181824" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="38" y="122" fill="#a78bfa" font-size="13" font-weight="bold">What you write</text>
+  <text x="38" y="148" fill="#38bdf8" font-size="12" font-family="monospace">INSERT INTO orders</text>
+  <text x="38" y="164" fill="#9aa1b5" font-size="11">1 operation</text>
+
+  <path d="M 196 132 L 246 132" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow-wa-en)"/>
+
+  <rect x="252" y="60" width="200" height="145" rx="10" fill="#181824" stroke="#334155" stroke-width="1.5"/>
+  <text x="268" y="86" fill="#9aa1b5" font-size="12" font-weight="bold">What the engine writes</text>
+
+  <rect x="268" y="98" width="168" height="24" rx="5" fill="#0b0d14"/>
+  <text x="280" y="115" fill="#6ee7b7" font-size="11" font-family="monospace">table heap</text>
+
+  <rect x="268" y="126" width="168" height="18" rx="5" fill="#0b0d14"/>
+  <text x="280" y="139" fill="#fbbf24" font-size="10" font-family="monospace">idx_orders_customer</text>
+
+  <rect x="268" y="148" width="168" height="18" rx="5" fill="#0b0d14"/>
+  <text x="280" y="161" fill="#fbbf24" font-size="10" font-family="monospace">idx_orders_status</text>
+
+  <rect x="268" y="170" width="168" height="18" rx="5" fill="#0b0d14"/>
+  <text x="280" y="183" fill="#fbbf24" font-size="10" font-family="monospace">idx_orders_email</text>
+
+  <path d="M 458 132 L 508 132" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrow-wa-en-amber)"/>
+
+  <rect x="514" y="92" width="262" height="80" rx="10" fill="#181824" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="532" y="120" fill="#fbbf24" font-size="13" font-weight="bold">Write amplification</text>
+  <text x="532" y="144" fill="#e5e7eb" font-size="13" font-family="monospace">1 table + 3 indexes = 4 writes</text>
+  <text x="532" y="162" fill="#9aa1b5" font-size="11">and the random index splits pages</text>
+
+  <text x="24" y="236" fill="#9aa1b5" font-size="12">Increasing column (id, created_at): appends at the end, cheap. Random column (uuid, email): splits pages, expensive.</text>
+</svg>
