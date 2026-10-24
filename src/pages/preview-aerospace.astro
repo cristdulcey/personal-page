@@ -1,0 +1,490 @@
+---
+// Preview: Aerospace & Mission-Critical Structural Docket
+const pageTitle = "Cristian Dulcey — Mission Architecture // High-Reliability Systems";
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{pageTitle}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #07090e;
+      --panel: #0d111a;
+      --panel-border: rgba(255, 255, 255, 0.08);
+      --panel-border-amber: rgba(245, 158, 11, 0.35);
+      --amber: #f59e0b;
+      --amber-dim: #b45309;
+      --amber-bg: rgba(245, 158, 11, 0.08);
+      --titanium: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--titanium);
+      font-family: var(--font-display);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 5rem;
+    }
+
+    /* Top Mission Telemetry Bar */
+    .mission-bar {
+      border-bottom: 1px solid var(--panel-border);
+      background: rgba(13, 17, 26, 0.95);
+      backdrop-filter: blur(8px);
+      padding: 0.75rem 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .mission-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--amber);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--amber);
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .mission-coords {
+      color: var(--text-dim);
+      display: none;
+    }
+    @media (min-width: 640px) {
+      .mission-coords { display: block; }
+    }
+
+    /* Container */
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 3.5rem 0 2.5rem;
+      border-bottom: 1px solid var(--panel-border);
+    }
+    .docket-stamp {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      background: var(--amber-bg);
+      border: 1px solid var(--panel-border-amber);
+      border-radius: 4px;
+    }
+    .hero-title {
+      font-size: clamp(2.4rem, 7vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      margin-bottom: 1.25rem;
+    }
+    .hero-title span {
+      color: var(--amber);
+    }
+    .hero-lead {
+      font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+      color: var(--text-muted);
+      max-width: 720px;
+      line-height: 1.55;
+      margin-bottom: 2rem;
+    }
+
+    /* Specification Strip */
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    @media (min-width: 768px) {
+      .spec-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .spec-box {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      position: relative;
+    }
+    .spec-box::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: transparent;
+      transition: background 0.2s;
+    }
+    .spec-box:hover::before {
+      background: var(--amber);
+    }
+    .spec-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .spec-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+    .spec-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+      font-family: var(--font-mono);
+    }
+
+    /* Section Styling */
+    .section-title-wrap {
+      margin: 4rem 0 2rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--panel-border);
+      padding-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .section-num {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--amber);
+      font-weight: 700;
+    }
+
+    /* Dossier Cards */
+    .dossier-card {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: border-color 0.2s;
+    }
+    .dossier-card:hover {
+      border-color: var(--panel-border-amber);
+    }
+    .dossier-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid var(--panel-border);
+      padding-bottom: 1rem;
+    }
+    .dossier-code {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--amber);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .dossier-name {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-top: 0.25rem;
+    }
+    .dossier-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .dossier-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.2rem 0.5rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--panel-border);
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+    .dossier-body {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .dossier-body { grid-template-columns: 3fr 2fr; }
+    }
+    .dossier-text p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    .dossier-specs-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--panel-border);
+      border-radius: 6px;
+      padding: 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
+    .spec-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+    }
+    .spec-line:last-child { border-bottom: none; }
+    .spec-k { color: var(--text-dim); }
+    .spec-v { color: #ffffff; font-weight: 600; }
+
+    /* Advisory Callout */
+    .advisory-box {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(13, 17, 26, 0.9) 100%);
+      border: 1px solid var(--panel-border-amber);
+      border-radius: 12px;
+      padding: 2.5rem;
+      margin-top: 4rem;
+      text-align: center;
+    }
+    .advisory-box h3 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.75rem;
+    }
+    .advisory-box p {
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 1.75rem;
+      font-size: 1rem;
+    }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--amber);
+      color: #000000;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .btn-action:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* Switcher Navigation */
+    .preview-nav {
+      position: fixed;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(13, 17, 26, 0.95);
+      border: 1px solid var(--amber);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      display: flex;
+      gap: 0.75rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      z-index: 100;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+    .preview-nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.25rem 0.5rem;
+      border-radius: 20px;
+      transition: color 0.15s;
+    }
+    .preview-nav a.active {
+      background: var(--amber);
+      color: #000000;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Telemetry Bar -->
+  <header class="mission-bar">
+    <div class="mission-indicator">
+      <span class="status-dot"></span>
+      <span>MISSION ARCHITECTURE // ENVELOPE: PROD</span>
+    </div>
+    <div class="mission-coords">
+      COORDINATES: LATAM / GLOBAL INFRASTRUCTURE · SLA 99.999%
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="docket-stamp">ARCHITECTURAL DOSSIER // CRISTIAN DULCEY</div>
+      <h1 class="hero-title">High-Reliability Systems Architecture for <span>Sovereign Scale</span>.</h1>
+      <p class="hero-lead">
+        Senior Systems Architect, Google Developer Expert (GDE) y Microsoft MVP. Diseño e implemento plataformas distribuidas de misión crítica donde el fallo y el downtime no son tolerables.
+      </p>
+
+      <!-- Spec Metrics -->
+      <div class="spec-grid">
+        <div class="spec-box">
+          <span class="spec-label">Sovereign Scale</span>
+          <div class="spec-value">4M+</div>
+          <div class="spec-sub">Usuarios en Chivo Wallet</div>
+        </div>
+        <div class="spec-box">
+          <span class="spec-label">Distributed Cluster</span>
+          <div class="spec-value">300+</div>
+          <div class="spec-sub">Microservicios en Azure K8s</div>
+        </div>
+        <div class="spec-box">
+          <span class="spec-label">Throughput Peak</span>
+          <div class="spec-value">100K+</div>
+          <div class="spec-sub">Req/segundo en concurrencia</div>
+        </div>
+        <div class="spec-box">
+          <span class="spec-label">Production Tenure</span>
+          <div class="spec-value">15+</div>
+          <div class="spec-sub">Años en sistemas distribuidos</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission Cases -->
+    <section>
+      <div class="section-title-wrap">
+        <h2 class="section-title">
+          <span class="section-num">01 //</span>
+          Sistemas de Misión Crítica
+        </h2>
+        <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim);">VERIFIED ARCHITECTURE</span>
+      </div>
+
+      <!-- Case 1: Chivo -->
+      <article class="dossier-card">
+        <div class="dossier-header">
+          <div>
+            <div class="dossier-code">DOSSIER #001 // NATIONAL LEGAL TENDER LEDGER</div>
+            <h3 class="dossier-name">Chivo Wallet — Core Banking & Ledger</h3>
+          </div>
+          <div class="dossier-tags">
+            <span class="dossier-tag">Bitcoin Core</span>
+            <span class="dossier-tag">Idempotent Settlement</span>
+            <span class="dossier-tag">Fintech Sovereign</span>
+          </div>
+        </div>
+        <div class="dossier-body">
+          <div class="dossier-text">
+            <p>
+              Diseño e implementación de la arquitectura del backend de atención al cliente y liquidación bancaria para el ecosistema de moneda de curso legal de El Salvador. 
+            </p>
+            <p>
+              Garantía de idempotencia transaccional y reconciliación financiera en tiempo real entre Bitcoin Lightning Network y el sistema bancario nacional, procesando millones de transferencias con trazabilidad auditable absoluta.
+            </p>
+          </div>
+          <div class="dossier-specs-box">
+            <div class="spec-line"><span class="spec-k">Alcance:</span> <span class="spec-v">4,000,000+ ciudadanos</span></div>
+            <div class="spec-line"><span class="spec-k">Rol:</span> <span class="spec-v">Backend Systems Lead</span></div>
+            <div class="spec-line"><span class="spec-k">SLA Transaccional:</span> <span class="spec-v">Zero Loss / Idempotente</span></div>
+            <div class="spec-line"><span class="spec-k">Integración:</span> <span class="spec-v">Lightning & Fiat Clearing</span></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 2: Fenix -->
+      <article class="dossier-card">
+        <div class="dossier-header">
+          <div>
+            <div class="dossier-code">DOSSIER #002 // CLOUD-NATIVE RESILIENCE MESH</div>
+            <h3 class="dossier-name">Proyecto Fénix — Malla Empresarial</h3>
+          </div>
+          <div class="dossier-tags">
+            <span class="dossier-tag">Azure K8s</span>
+            <span class="dossier-tag">300+ Microservicios</span>
+            <span class="dossier-tag">100K+ req/s</span>
+          </div>
+        </div>
+        <div class="dossier-body">
+          <div class="dossier-text">
+            <p>
+              Reestructuración arquitectónica y orquestación de más de 300 microservicios sobre Azure Kubernetes Service (AKS) para una de las entidades corporativas más demandantes de la región.
+            </p>
+            <p>
+              Implementación de patrones de circuit breaking, tolerancia a particiones de red y auto-escalado horizontal predictivo capaz de sostener picos masivos sin degradación de latencia.
+            </p>
+          </div>
+          <div class="dossier-specs-box">
+            <div class="spec-line"><span class="spec-k">Topología:</span> <span class="spec-v">Multi-Región AKS Mesh</span></div>
+            <div class="spec-line"><span class="spec-k">Concurrencia:</span> <span class="spec-v">100,000+ req/s</span></div>
+            <div class="spec-line"><span class="spec-k">Disponibilidad:</span> <span class="spec-v">99.99% High Availability</span></div>
+            <div class="spec-line"><span class="spec-k">Observabilidad:</span> <span class="spec-v">Distributed Tracing</span></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Advisory Action -->
+    <section class="advisory-box">
+      <div class="docket-stamp">EXECUTIVE ENGAGEMENT</div>
+      <h3>¿Evaluando la resiliencia o escala de tu arquitectura?</h3>
+      <p>
+        Asesoro a CTOs, VPs de Ingeniería y comités técnicos en auditorías de sistemas distribuidos, diseño de infraestructuras críticas y modernización de plataformas de alta concurrencia.
+      </p>
+      <a href="mailto:christian.dulcey@gmail.com" class="btn-action">
+        Iniciar Consulta Técnica →
+      </a>
+    </section>
+  </main>
+
+  <!-- Switcher Navigation Bar -->
+  <nav class="preview-nav">
+    <a href="/preview-aerospace/" class="active">01. Aeroespacial</a>
+    <a href="/preview-monolith/">02. Monolito</a>
+    <a href="/preview-editorial-light/">03. Editorial Claro</a>
+  </nav>
+
+</body>
+</html>
