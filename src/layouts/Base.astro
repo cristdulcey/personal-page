@@ -47,6 +47,12 @@ const site = Astro.site ?? 'https://cristdulcey.com';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="canonical" href={new URL(urls[lang], site)} />
     {
       hreflangAlternates && (
@@ -109,13 +115,14 @@ const site = Astro.site ?? 'https://cristdulcey.com';
     </footer>
 
     <script>
-      // Reveal-on-scroll animation. The class is toggled rather than set
-      // once, so elements animate again every time they re-enter the
-      // viewport while scrolling in either direction.
+      // Reveal-on-scroll animation. Animates once upon entry to eliminate jitter and animation fatigue.
       const observer = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
-            entry.target.classList.toggle('visible', entry.isIntersecting);
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
           }
         },
         { threshold: 0.12, rootMargin: '0px 0px -30px' }

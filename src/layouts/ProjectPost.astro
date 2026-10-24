@@ -1,0 +1,96 @@
+---
+// Dedicated architecture case study layout.
+import { render, type CollectionEntry } from 'astro:content';
+import Base from './Base.astro';
+import { profile, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  project: CollectionEntry<'projects'>;
+}
+
+const { lang, project } = Astro.props;
+const { Content } = await render(project);
+
+const slug = project.id.split('/').slice(1).join('/');
+const paths: Record<Lang, string> = {
+  es: `projects/${slug}/`,
+  en: `en/projects/${slug}/`,
+};
+
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const homeUrl = `${base}${lang === 'en' ? 'en/' : ''}#projects`;
+
+const labels = {
+  es: {
+    back: 'Volver a proyectos',
+    role: 'Rol Técnico',
+    client: 'Entidad / Cliente',
+    metrics: 'Hitos Clave',
+    external: 'Ver sitio oficial de producción',
+  },
+  en: {
+    back: 'Back to projects',
+    role: 'Technical Role',
+    client: 'Entity / Client',
+    metrics: 'Key Milestones',
+    external: 'Visit live production site',
+  },
+}[lang];
+---
+
+<Base
+  lang={lang}
+  title={`${project.data.title} — ${profile.name}`}
+  description={project.data.description}
+  paths={paths}
+  hreflangAlternates={true}
+>
+  <article class="post case-study">
+    <a class="back-link" href={homeUrl}>← {labels.back}</a>
+
+    <header class="case-study-header">
+      <div class="case-study-badges">
+        <span class="cs-badge cs-client">{project.data.clientOrEntity}</span>
+        <span class="cs-badge cs-role">{project.data.role}</span>
+      </div>
+
+      <h1 class="case-study-title">{project.data.title}</h1>
+      <p class="case-study-lead">{project.data.description}</p>
+
+      {
+        project.data.metrics.length > 0 && (
+          <div class="metrics-strip">
+            {project.data.metrics.map((m) => (
+              <div class="metric-item">
+                <span class="metric-marker">▪</span>
+                <span class="metric-text">{m}</span>
+              </div>
+            ))}
+          </div>
+        )
+      }
+
+      <div class="case-study-actions">
+        <ul class="chips chips-small">
+          {project.data.stack.map((s) => (
+            <li>{s}</li>
+          ))}
+        </ul>
+        {
+          project.data.externalUrl && (
+            <a class="cs-external-link" href={project.data.externalUrl} target="_blank" rel="noopener">
+              {labels.external} ↗
+            </a>
+          )
+        }
+      </div>
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</Base>
