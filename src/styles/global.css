@@ -1277,7 +1277,15 @@ footer {
 
 /* Blog index */
 .page-header {
-  padding: 4rem 0 1rem;
+  position: relative;
+  overflow: hidden;
+  padding: 3.5rem 0 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.page-header > *:not(.cluster-mesh-container):not(.hero-glow) {
+  position: relative;
+  z-index: 1;
 }
 
 .page-header h1 {
@@ -1306,6 +1314,7 @@ footer {
 }
 
 .post-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   padding: 2rem;
@@ -1315,14 +1324,13 @@ footer {
   text-decoration: none;
   color: inherit;
   box-shadow: var(--shadow-soft);
-  transition: transform 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
+  transition: transform 0.15s ease-out, border-color 0.25s, background 0.25s, box-shadow 0.25s;
 }
 
 .post-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--border-strong);
+  border-color: var(--amber-border);
   background: var(--surface-hover);
-  box-shadow: var(--shadow-high);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
 }
 
 .post-card time {

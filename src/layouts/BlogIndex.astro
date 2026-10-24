@@ -44,6 +44,15 @@ const dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long',
   paths={{ es: 'blog/', en: 'en/blog/' }}
 >
   <header class="page-header" id="blog-controls-header">
+    <!-- Ambient Morphing Glow Blobs -->
+    <div class="hero-glow hero-glow-1" aria-hidden="true"></div>
+    <div class="hero-glow hero-glow-2" aria-hidden="true"></div>
+
+    <!-- Cluster Topology Network Mesh (Canvas 2D) -->
+    <div class="cluster-mesh-container" aria-hidden="true">
+      <canvas id="blog-cluster-mesh"></canvas>
+    </div>
+
     <div class="docket-stamp reveal">
       {lang === 'es' ? 'REGISTRO DE ARQUITECTURA & ESCRITURA' : 'ARCHITECTURE & WRITING REGISTRY'}
     </div>
@@ -133,7 +142,7 @@ const dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long',
         <div id="blog-post-list" class="post-list">
           {posts.map((post, i) => (
             <article
-              class="post-card reveal-zoom"
+              class="post-card tilt-card reveal-zoom"
               data-title={post.data.title.toLowerCase()}
               data-desc={post.data.description.toLowerCase()}
               data-tags={post.data.tags.join(',').toLowerCase()}
@@ -474,6 +483,207 @@ const dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long',
 
       // Initial filter & render
       filterAndRender();
+    })();
+
+    // 2. Blog Header Cluster Topology Mesh (Canvas 2D)
+    (function initBlogClusterMesh() {
+      const canvas = document.getElementById('blog-cluster-mesh');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      const header = document.getElementById('blog-controls-header');
+      let width = 0;
+      let height = 0;
+      let dpr = window.devicePixelRatio || 1;
+      let nodes = [];
+      let animFrameId = null;
+      let isVisible = true;
+      const mouse = { x: -9999, y: -9999, active: false };
+
+      function resize() {
+        if (!header) return;
+        const rect = header.getBoundingClientRect();
+        width = rect.width;
+        height = rect.height;
+        dpr = window.devicePixelRatio || 1;
+
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.scale(dpr, dpr);
+
+        initNodes();
+      }
+
+      function initNodes() {
+        nodes = [];
+        const nodeCount = Math.min(36, Math.max(14, Math.floor((width * height) / 22000)));
+
+        for (let i = 0; i < nodeCount; i++) {
+          nodes.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.4,
+            vy: (Math.random() - 0.5) * 0.4,
+            radius: Math.random() * 1.5 + 1.0,
+            pulse: Math.random() * Math.PI * 2,
+            pulseSpeed: 0.02 + Math.random() * 0.02,
+            isTelemetryBeacon: i % 4 === 0,
+          });
+        }
+      }
+
+      function draw() {
+        if (!isVisible) return;
+        ctx.clearRect(0, 0, width, height);
+        const isLight = document.documentElement.classList.contains('light');
+        const maxDist = 140;
+        const maxDistSq = maxDist * maxDist;
+
+        // Connections
+        for (let i = 0; i < nodes.length; i++) {
+          const a = nodes[i];
+          for (let j = i + 1; j < nodes.length; j++) {
+            const b = nodes[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const distSq = dx * dx + dy * dy;
+
+            if (distSq < maxDistSq) {
+              const dist = Math.sqrt(distSq);
+              const alpha = (1 - dist / maxDist) * (isLight ? 0.15 : 0.2);
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.strokeStyle = isLight
+                ? `rgba(217, 119, 6, ${alpha})`
+                : `rgba(245, 158, 11, ${alpha})`;
+              ctx.lineWidth = 0.75;
+              ctx.stroke();
+            }
+          }
+
+          if (mouse.active) {
+            const mdx = a.x - mouse.x;
+            const mdy = a.y - mouse.y;
+            const mDistSq = mdx * mdx + mdy * mdy;
+            if (mDistSq < 150 * 150) {
+              const mDist = Math.sqrt(mDistSq);
+              const mAlpha = (1 - mDist / 150) * 0.3;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.strokeStyle = isLight
+                ? `rgba(217, 119, 6, ${mAlpha})`
+                : `rgba(251, 191, 36, ${mAlpha})`;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+        }
+
+        // Nodes
+        for (let i = 0; i < nodes.length; i++) {
+          const n = nodes[i];
+          n.x += n.vx;
+          n.y += n.vy;
+          n.pulse += n.pulseSpeed;
+
+          if (n.x < 0 || n.x > width) n.vx *= -1;
+          if (n.y < 0 || n.y > height) n.vy *= -1;
+
+          const currentRadius = n.radius + Math.sin(n.pulse) * 0.4;
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, Math.max(0.8, currentRadius), 0, Math.PI * 2);
+
+          if (n.isTelemetryBeacon) {
+            ctx.fillStyle = isLight ? '#d97706' : '#fbbf24';
+            ctx.shadowColor = isLight ? 'rgba(217, 119, 6, 0.3)' : 'rgba(245, 158, 11, 0.6)';
+            ctx.shadowBlur = 6;
+          } else {
+            ctx.fillStyle = isLight ? 'rgba(180, 83, 9, 0.7)' : 'rgba(245, 158, 11, 0.75)';
+            ctx.shadowBlur = 0;
+          }
+
+          ctx.fill();
+        }
+
+        animFrameId = requestAnimationFrame(draw);
+      }
+
+      // Stop loop when header is off-screen
+      if ('IntersectionObserver' in window && header) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              isVisible = entry.isIntersecting;
+              if (isVisible && !animFrameId) {
+                animFrameId = requestAnimationFrame(draw);
+              } else if (!isVisible && animFrameId) {
+                cancelAnimationFrame(animFrameId);
+                animFrameId = null;
+              }
+            });
+          },
+          { threshold: 0.05 }
+        );
+        observer.observe(header);
+      }
+
+      if (header && window.matchMedia('(hover: hover)').matches) {
+        header.addEventListener('mousemove', (e) => {
+          const rect = header.getBoundingClientRect();
+          mouse.x = e.clientX - rect.left;
+          mouse.y = e.clientY - rect.top;
+          mouse.active = true;
+        });
+        header.addEventListener('mouseleave', () => {
+          mouse.active = false;
+        });
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+      animFrameId = requestAnimationFrame(draw);
+    })();
+
+    // 3. Blog Cards 3D Tilt Effect
+    (function initBlogTiltCards() {
+      if (!window.matchMedia('(hover: hover)').matches) return;
+      const tiltCards = document.querySelectorAll('.tilt-card');
+
+      tiltCards.forEach((card) => {
+        let isHovered = false;
+
+        card.addEventListener('mouseenter', () => {
+          isHovered = true;
+        });
+
+        card.addEventListener('mousemove', (e) => {
+          if (!isHovered) return;
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const cx = rect.width / 2;
+          const cy = rect.height / 2;
+          const rotateX = ((y - cy) / cy) * -5.5;
+          const rotateY = ((x - cx) / cx) * 5.5;
+
+          card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-2px)`;
+
+          const px = ((x / rect.width) * 100).toFixed(1);
+          const py = ((y / rect.height) * 100).toFixed(1);
+          card.style.setProperty('--mouse-x', `${px}%`);
+          card.style.setProperty('--mouse-y', `${py}%`);
+        });
+
+        card.addEventListener('mouseleave', () => {
+          isHovered = false;
+          card.style.transform = '';
+        });
+      });
     })();
   </script>
 </Base>
