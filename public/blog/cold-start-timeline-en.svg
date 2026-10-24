@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 270" width="100%" height="auto" style="background:#0b0d14;border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-family:system-ui,-apple-system,sans-serif;">
+  <text x="24" y="32" fill="#e5e7eb" font-size="15" font-weight="bold">Cold call: your 40 ms are only the last leg</text>
+
+  <rect x="24" y="64" width="150" height="46" rx="8" fill="#181824" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="38" y="84" fill="#a78bfa" font-size="12" font-weight="bold">1. Environment</text>
+  <text x="38" y="101" fill="#9aa1b5" font-size="11">~50 ms</text>
+
+  <rect x="180" y="64" width="150" height="46" rx="8" fill="#181824" stroke="#06b6d4" stroke-width="1.5"/>
+  <text x="194" y="84" fill="#38bdf8" font-size="12" font-weight="bold">2. Runtime</text>
+  <text x="194" y="101" fill="#9aa1b5" font-size="11">~300 ms</text>
+
+  <rect x="336" y="64" width="330" height="46" rx="8" fill="#181824" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="350" y="84" fill="#fbbf24" font-size="12" font-weight="bold">3. Your code init (imports, clients, connections)</text>
+  <text x="350" y="101" fill="#9aa1b5" font-size="11">~2.000 ms</text>
+
+  <rect x="672" y="64" width="104" height="46" rx="8" fill="#181824" stroke="#10b981" stroke-width="1.5"/>
+  <text x="686" y="84" fill="#10b981" font-size="12" font-weight="bold">4. Handler</text>
+  <text x="686" y="101" fill="#9aa1b5" font-size="11">40 ms</text>
+
+  <path d="M 24 126 L 666 126" stroke="#f87171" stroke-width="2"/>
+  <path d="M 24 120 L 24 132" stroke="#f87171" stroke-width="2"/>
+  <path d="M 666 120 L 666 132" stroke="#f87171" stroke-width="2"/>
+  <text x="258" y="148" fill="#f87171" font-size="13" font-weight="bold">Init Duration = the cold start</text>
+
+  <path d="M 672 126 L 776 126" stroke="#10b981" stroke-width="2"/>
+  <path d="M 672 120 L 672 132" stroke="#10b981" stroke-width="2"/>
+  <path d="M 776 120 L 776 132" stroke="#10b981" stroke-width="2"/>
+  <text x="676" y="148" fill="#10b981" font-size="11" font-weight="bold">Duration</text>
+
+  <rect x="24" y="168" width="752" height="46" rx="8" fill="#181824" stroke="#334155" stroke-width="1.2"/>
+  <text x="40" y="188" fill="#9aa1b5" font-size="12">Warm call: the instance is still alive, so it goes straight to step 4.</text>
+  <text x="40" y="206" fill="#6ee7b7" font-size="12" font-weight="bold">40 ms, no steps 1, 2 or 3.</text>
+
+  <text x="24" y="246" fill="#9aa1b5" font-size="12">Every concurrent instance pays its own start-up: 100 requests at once with 2 warm instances = 98 start-ups.</text>
+</svg>
