@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" width="100%" height="auto" style="background:#0b0d14;border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-family:system-ui,-apple-system,sans-serif;">
+  <defs>
+    <marker id="arrow-bp" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#06b6d4" />
+    </marker>
+    <marker id="arrow-bp-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#f87171" />
+    </marker>
+  </defs>
+
+  <text x="24" y="32" fill="#e5e7eb" font-size="15" font-weight="bold">Sin freno, la cola crece hasta que el proceso muere</text>
+
+  <rect x="20" y="86" width="150" height="76" rx="10" fill="#181824" stroke="#06b6d4" stroke-width="1.5"/>
+  <text x="38" y="114" fill="#38bdf8" font-size="13" font-weight="bold">Productor</text>
+  <text x="38" y="138" fill="#9aa1b5" font-size="11">1.000 msg/s</text>
+
+  <path d="M 176 124 L 226 124" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrow-bp)"/>
+
+  <rect x="232" y="70" width="290" height="108" rx="10" fill="#181824" stroke="#f87171" stroke-width="1.5"/>
+  <text x="250" y="94" fill="#f87171" font-size="13" font-weight="bold">Cola sin límite (en memoria)</text>
+  <rect x="250" y="106" width="22" height="30" rx="3" fill="#334155"/>
+  <rect x="277" y="106" width="22" height="30" rx="3" fill="#475569"/>
+  <rect x="304" y="106" width="22" height="30" rx="3" fill="#64748b"/>
+  <rect x="331" y="106" width="22" height="30" rx="3" fill="#92400e"/>
+  <rect x="358" y="106" width="22" height="30" rx="3" fill="#b45309"/>
+  <rect x="385" y="106" width="22" height="30" rx="3" fill="#dc2626"/>
+  <rect x="412" y="106" width="22" height="30" rx="3" fill="#dc2626"/>
+  <text x="440" y="128" fill="#f87171" font-size="16" font-weight="bold">...</text>
+  <text x="250" y="160" fill="#9aa1b5" font-size="11">crece sin techo hasta el OOMKilled</text>
+
+  <path d="M 528 124 L 578 124" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrow-bp)"/>
+
+  <rect x="584" y="86" width="192" height="76" rx="10" fill="#181824" stroke="#06b6d4" stroke-width="1.5"/>
+  <text x="602" y="114" fill="#38bdf8" font-size="13" font-weight="bold">Consumidor</text>
+  <text x="602" y="138" fill="#9aa1b5" font-size="11">200 msg/s — va atrasado</text>
+
+  <path d="M 660 170 L 660 206 L 95 206 L 95 170" stroke="#10b981" stroke-width="2" stroke-dasharray="6 4" fill="none" marker-end="url(#arrow-bp)"/>
+  <rect x="300" y="190" width="186" height="32" rx="8" fill="#0b0d14" stroke="#10b981" stroke-width="1.2"/>
+  <text x="316" y="211" fill="#10b981" font-size="12" font-weight="bold">backpressure: "frena, voy lleno"</text>
+
+  <text x="24" y="256" fill="#9aa1b5" font-size="12">Si esa señal de vuelta no existe, el productor sigue mandando a ciegas y decide la memoria, no tú.</text>
+</svg>
