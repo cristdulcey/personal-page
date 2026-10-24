@@ -625,8 +625,12 @@ html.light .hero-glow {
 .tilt-card {
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.15s ease-out, border-color 0.25s, box-shadow 0.25s;
+  transition: border-color 0.25s, box-shadow 0.25s;
   will-change: transform;
+}
+
+.tilt-card.is-resetting {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s, box-shadow 0.25s;
 }
 
 .tilt-card::before {
@@ -664,7 +668,7 @@ html.light .tilt-card::before {
   border-radius: 14px;
   padding: 2rem;
   margin-bottom: 2rem;
-  transition: border-color 0.25s, transform 0.15s ease-out, box-shadow 0.25s;
+  transition: border-color 0.25s, box-shadow 0.25s;
   text-decoration: none;
   color: inherit;
   display: block;
@@ -1324,7 +1328,7 @@ footer {
   text-decoration: none;
   color: inherit;
   box-shadow: var(--shadow-soft);
-  transition: transform 0.15s ease-out, border-color 0.25s, background 0.25s, box-shadow 0.25s;
+  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
 }
 
 .post-card:hover {

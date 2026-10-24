@@ -495,39 +495,59 @@ const isEs = lang === 'es';
       animFrameId = requestAnimationFrame(draw);
     })();
 
-    // 2. 3D Tilt Card Perspective Effect (Zero-Dependency)
+    // 2. 3D Tilt Card Perspective Effect (Zero-Dependency, RAF Optimized)
     (function init3DTiltCards() {
       if (!window.matchMedia('(hover: hover)').matches) return;
       const tiltCards = document.querySelectorAll('.tilt-card');
 
       tiltCards.forEach((card) => {
-        let isHovered = false;
+        let rect = null;
+        let rafId = null;
+        let mouseX = 0;
+        let mouseY = 0;
 
-        card.addEventListener('mouseenter', () => {
-          isHovered = true;
-        });
-
-        card.addEventListener('mousemove', (e) => {
-          if (!isHovered) return;
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
+        function updateTransform() {
+          if (!rect) return;
           const cx = rect.width / 2;
           const cy = rect.height / 2;
-          const rotateX = ((y - cy) / cy) * -5.5; // max 5.5 deg
-          const rotateY = ((x - cx) / cx) * 5.5; // max 5.5 deg
+          const rotateX = ((mouseY - cy) / cy) * -4.5;
+          const rotateY = ((mouseX - cx) / cx) * 4.5;
 
           card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-2px)`;
 
-          const px = ((x / rect.width) * 100).toFixed(1);
-          const py = ((y / rect.height) * 100).toFixed(1);
+          const px = ((mouseX / rect.width) * 100).toFixed(1);
+          const py = ((mouseY / rect.height) * 100).toFixed(1);
           card.style.setProperty('--mouse-x', `${px}%`);
           card.style.setProperty('--mouse-y', `${py}%`);
+
+          rafId = null;
+        }
+
+        card.addEventListener('mouseenter', () => {
+          card.classList.remove('is-resetting');
+          rect = card.getBoundingClientRect();
+        });
+
+        card.addEventListener('mousemove', (e) => {
+          if (!rect) rect = card.getBoundingClientRect();
+          mouseX = e.clientX - rect.left;
+          mouseY = e.clientY - rect.top;
+
+          if (!rafId) {
+            rafId = requestAnimationFrame(updateTransform);
+          }
         });
 
         card.addEventListener('mouseleave', () => {
-          isHovered = false;
+          if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+          }
+          rect = null;
+          card.classList.add('is-resetting');
           card.style.transform = '';
+          card.style.removeProperty('--mouse-x');
+          card.style.removeProperty('--mouse-y');
         });
       });
     })();
