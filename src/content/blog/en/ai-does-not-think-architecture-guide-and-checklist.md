@@ -1,5 +1,5 @@
 ---
-title: "AI Doesn\'t Think: Architecture Guide & Anti-Hallucination Checklist"
+title: "AI Does Not Think: Architecture Guide & Anti-Hallucination Checklist"
 description: "Why LLMs sound like senior engineers while inventing APIs, the 4-level architectural decision map, and a practical checklist for code reviews."
 date: 2026-10-24
 tags: ["artificial-intelligence", "architecture", "software-development", "llm", "code-review"]
