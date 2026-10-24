@@ -35,7 +35,7 @@ const isEs = lang === 'es';
       <div class="docket-stamp reveal">ARCHITECTURAL DOSSIER // CRISTIAN DULCEY</div>
       <h1 class="reveal" style="--delay: 80ms">
         {isEs ? 'Arquitectura de Sistemas de ' : 'High-Reliability Architecture for '}
-        <span class="celeste-text">{isEs ? 'Misión Crítica' : 'Sovereign Scale'}</span>.
+        <span class="amber-text">{isEs ? 'Misión Crítica' : 'Sovereign Scale'}</span>.
       </h1>
       <p class="hero-role reveal" style="--delay: 140ms">
         <strong>{profile.name}</strong>
@@ -73,17 +73,23 @@ const isEs = lang === 'es';
       </div>
     </div>
 
-    <!-- Right Interactive Column -->
+    <!-- Right Column: Prominent Portrait + Telemetry Console -->
     <div class="hero-interactive reveal-zoom" style="--delay: 200ms">
-      <TelemetryConsole lang={lang} />
-      <div class="hero-architect-card">
-        <img src={photoUrl} alt={t.hero.photoAlt} width="36" height="36" class="architect-avatar" />
-        <div class="architect-info">
-          <span class="architect-name">{profile.name}</span>
-          <span class="architect-role">Systems Architect · Bogotá, CO</span>
+      <div class="architect-portrait-hero">
+        <div class="portrait-frame">
+          <img src={photoUrl} alt={t.hero.photoAlt} class="portrait-img" loading="eager" />
         </div>
-        <span class="architect-badge">Staff Level</span>
+        <div class="portrait-meta">
+          <div class="portrait-name-row">
+            <span class="portrait-name">{profile.name}</span>
+            <span class="portrait-badge">GDE · MVP</span>
+          </div>
+          <span class="portrait-title">Lead Systems Architect</span>
+          <span class="portrait-location">Bogotá, CO · Sovereign Infrastructure</span>
+        </div>
       </div>
+
+      <TelemetryConsole lang={lang} />
     </div>
   </section>
 

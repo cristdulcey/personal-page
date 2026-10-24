@@ -64,6 +64,22 @@ const site = Astro.site ?? 'https://cristdulcey.com';
       )
     }
     <title>{title}</title>
+    <script is:inline>
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+          return 'light';
+        }
+        return 'dark';
+      })();
+      if (theme === 'light') {
+        document.documentElement.classList.add('light');
+      } else {
+        document.documentElement.classList.remove('light');
+      }
+    </script>
     {
       CF_ANALYTICS_TOKEN && (
         <script
@@ -99,9 +115,15 @@ const site = Astro.site ?? 'https://cristdulcey.com';
           <li><a href={`${home}blog/`}>{t.nav.blog}</a></li>
           <li><a href={`${home}#contact`}>{t.nav.contact}</a></li>
         </ul>
-        <div class="lang-switch" aria-label={t.nav.langLabel}>
-          <a href={urls.es} class={lang === 'es' ? 'active' : ''} aria-current={lang === 'es' ? 'page' : undefined}>ES</a>
-          <a href={urls.en} class={lang === 'en' ? 'active' : ''} aria-current={lang === 'en' ? 'page' : undefined}>EN</a>
+        <div class="nav-actions">
+          <div class="lang-switch" aria-label={t.nav.langLabel}>
+            <a href={urls.es} class={lang === 'es' ? 'active' : ''} aria-current={lang === 'es' ? 'page' : undefined}>ES</a>
+            <a href={urls.en} class={lang === 'en' ? 'active' : ''} aria-current={lang === 'en' ? 'page' : undefined}>EN</a>
+          </div>
+          <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema claro / oscuro" title="Modo Claro / Oscuro">
+            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+          </button>
         </div>
       </nav>
     </header>
@@ -141,6 +163,15 @@ const site = Astro.site ?? 'https://cristdulcey.com';
       document
         .querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-zoom')
         .forEach((el) => observer.observe(el));
+
+      // Dark / Light Mode Switcher
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        toggle.addEventListener('click', () => {
+          const isLight = document.documentElement.classList.toggle('light');
+          localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        });
+      }
     </script>
   </body>
 </html>

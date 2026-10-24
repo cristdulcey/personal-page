@@ -174,13 +174,11 @@ const copy = {
 
 <style>
   .telemetry-console {
-    background: rgba(13, 17, 26, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--panel, #0d111a);
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
     border-radius: 8px;
     overflow: hidden;
-    box-shadow:
-      0 20px 50px rgba(0, 0, 0, 0.6),
-      0 0 0 1px rgba(255, 255, 255, 0.05);
+    box-shadow: var(--shadow-soft);
     font-family: var(--font-mono, ui-monospace, Menlo, monospace);
     width: 100%;
     max-width: 480px;
@@ -336,15 +334,15 @@ const copy = {
   }
 
   .row-label {
-    color: #9499ad;
+    color: var(--text-dim);
     font-size: 0.8rem;
     letter-spacing: 0.04em;
     flex-shrink: 0;
   }
 
   .row-value {
-    color: #e2e8f0;
-    font-weight: 500;
+    color: var(--text-bright);
+    font-weight: 600;
     text-align: right;
     overflow: hidden;
     text-overflow: ellipsis;
