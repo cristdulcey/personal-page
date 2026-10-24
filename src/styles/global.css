@@ -296,9 +296,16 @@ html.light .icon-moon {
 }
 
 main {
-  max-width: 1100px;
+  max-width: 1120px;
   margin: 0 auto;
   padding: 0 1.5rem;
+}
+
+@media (min-width: 1200px) {
+  main {
+    max-width: 1260px;
+    padding: 0 2rem;
+  }
 }
 
 /* Aerospace Docket Badges & Stamps */
@@ -1183,18 +1190,26 @@ footer {
 
 .page-header p {
   color: var(--text-dim);
-  max-width: 40rem;
+  max-width: 52rem;
 }
 
 .post-list {
   display: grid;
   gap: 1.5rem;
-  padding: 2.5rem 0 5.5rem;
+  padding: 2.25rem 0 5rem;
+}
+
+@media (min-width: 860px) {
+  .post-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
+  }
 }
 
 .post-card {
-  display: block;
-  padding: 1.9rem;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--surface);
@@ -1234,7 +1249,9 @@ footer {
 .post-card p {
   color: var(--text-dim);
   font-size: 0.98rem;
-  margin-bottom: 1rem;
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
 }
 
 .post-empty {
@@ -1244,9 +1261,21 @@ footer {
 
 /* Blog post page */
 .post {
-  max-width: 46rem;
+  max-width: 58rem;
   margin: 0 auto;
-  padding: 3.5rem 0 5.5rem;
+  padding: 2.5rem 0 5rem;
+}
+
+@media (min-width: 1024px) {
+  .post {
+    max-width: 66rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  .post {
+    max-width: 72rem;
+  }
 }
 
 .back-link {
@@ -1334,7 +1363,7 @@ footer {
   color: var(--text-dim);
   line-height: 1.6;
   margin-bottom: 2rem;
-  max-width: 48rem;
+  max-width: 58rem;
 }
 
 .metrics-strip {
@@ -1385,7 +1414,8 @@ footer {
 /* Markdown content */
 .prose {
   color: var(--text-dim);
-  font-size: 1.05rem;
+  font-size: 1.08rem;
+  line-height: 1.75;
 }
 
 .prose h2,
