@@ -2,6 +2,7 @@
 // Home page content, shared by every language. All copy comes from
 // src/i18n.ts; the `lang` prop selects which translation to render.
 import Base from './Base.astro';
+import TelemetryConsole from '../components/TelemetryConsole.astro';
 import { profile, projectMedia, translations, type Lang } from '../i18n';
 
 interface Props {
@@ -50,8 +51,16 @@ const blogUrl = `${base}${lang === 'en' ? 'en/' : ''}blog/`;
         }
       </ul>
     </div>
-    <div class="hero-photo reveal-zoom" style="--delay: 200ms">
-      <img src={photoUrl} alt={t.hero.photoAlt} width="320" height="320" />
+    <div class="hero-interactive reveal-zoom" style="--delay: 200ms">
+      <TelemetryConsole lang={lang} />
+      <div class="hero-architect-card">
+        <img src={photoUrl} alt={t.hero.photoAlt} width="40" height="40" class="architect-avatar" />
+        <div class="architect-info">
+          <span class="architect-name">{profile.name}</span>
+          <span class="architect-role">Systems Architect · Bogotá, CO</span>
+        </div>
+        <span class="architect-badge">Staff Level</span>
+      </div>
     </div>
   </section>
 
