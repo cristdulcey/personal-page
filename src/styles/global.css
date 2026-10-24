@@ -351,7 +351,7 @@ main {
   overflow: hidden;
 }
 
-#cluster-mesh {
+.cluster-mesh-container canvas {
   display: block;
   width: 100%;
   height: 100%;
@@ -1668,11 +1668,28 @@ html.light .blog-search-kbd {
   transform: translateX(-4px);
 }
 
+.post-header {
+  position: relative;
+  overflow: hidden;
+  padding: 2.25rem 0 1.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2.5rem;
+}
+
+.post-header > *:not(.cluster-mesh-container):not(.hero-glow) {
+  position: relative;
+  z-index: 1;
+}
+
+.post-header .docket-stamp {
+  margin-bottom: 0.85rem;
+}
+
 .post-header h1 {
   font-size: clamp(1.9rem, 5vw, 3rem);
   font-weight: 800;
   letter-spacing: -0.03em;
-  line-height: 1.15;
+  line-height: 1.18;
   margin-bottom: 1rem;
 }
 
@@ -1681,9 +1698,7 @@ html.light .blog-search-kbd {
   align-items: center;
   gap: 1rem;
   flex-wrap: wrap;
-  margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border);
+  margin-top: 0.75rem;
 }
 
 .post-meta time {
