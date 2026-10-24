@@ -206,7 +206,7 @@ export const translations = {
       lead: 'Asesoro a CTOs, VPs de Ingeniería y comités técnicos en auditorías de sistemas distribuidos, diseño de infraestructuras críticas y modernización de plataformas de alta concurrencia.',
       emailButton: 'Iniciar Consulta Técnica',
     },
-    footer: 'Hecho con Astro desde Colombia',
+    footer: 'Sistemas Distribuidos & Arquitectura de Misión Crítica · Bogotá, Colombia',
   },
   en: {
     meta: {
@@ -371,6 +371,6 @@ export const translations = {
       lead: 'Advising CTOs, VPs of Engineering, and technical leaders on distributed systems resilience, sovereign-scale infrastructure design, and cloud-native modernization.',
       emailButton: 'Initiate Technical Advisory',
     },
-    footer: 'Built with Astro in Colombia',
+    footer: 'Distributed Systems & Mission-Critical Architecture · Bogota, Colombia',
   },
 } satisfies Record<Lang, unknown>;

@@ -1040,10 +1040,12 @@ html.light .socials a:hover {
 
 footer {
   border-top: 1px solid var(--border);
-  padding: 2.5rem 1.5rem;
+  padding: 2.25rem 1.5rem;
   text-align: center;
   color: var(--text-dim);
-  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
 }
 
 /* Staggered reveal-on-scroll animations. Elements replay every time
