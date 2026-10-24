@@ -31,6 +31,15 @@ const isEs = lang === 'es';
 >
   <!-- Hero Section -->
   <section id="home" class="hero">
+    <!-- Ambient Morphing Glow Blobs -->
+    <div class="hero-glow hero-glow-1" aria-hidden="true"></div>
+    <div class="hero-glow hero-glow-2" aria-hidden="true"></div>
+
+    <!-- Cluster Topology Network Mesh (Canvas 2D) -->
+    <div class="cluster-mesh-container" aria-hidden="true">
+      <canvas id="cluster-mesh"></canvas>
+    </div>
+
     <div class="hero-text">
       <div class="docket-stamp reveal">{isEs ? 'DOSSIER ARQUITECTÓNICO // CRISTIAN DULCEY' : 'ARCHITECTURAL DOSSIER // CRISTIAN DULCEY'}</div>
       <h1 class="reveal" style="--delay: 80ms">
@@ -75,7 +84,7 @@ const isEs = lang === 'es';
 
     <!-- Right Column: Prominent Portrait + Telemetry Console -->
     <div class="hero-interactive reveal-zoom" style="--delay: 200ms">
-      <div class="architect-portrait-hero">
+      <div class="architect-portrait-hero tilt-card">
         <div class="portrait-frame">
           <img src={photoUrl} alt={t.hero.photoAlt} class="portrait-img" loading="eager" />
         </div>
@@ -104,7 +113,7 @@ const isEs = lang === 'es';
     </div>
 
     <!-- Dossier 01: Chivo Wallet -->
-    <article class="dossier-card reveal-left">
+    <article class="dossier-card tilt-card reveal-left">
       <div class="dossier-header">
         <div>
           <div class="dossier-code">{isEs ? 'DOSSIER #001 // LEDGER DE CURSO LEGAL NACIONAL' : 'DOSSIER #001 // NATIONAL LEGAL TENDER LEDGER'}</div>
@@ -143,7 +152,7 @@ const isEs = lang === 'es';
     </article>
 
     <!-- Dossier 02: Proyecto Fénix -->
-    <article class="dossier-card reveal-right" style="--delay: 100ms">
+    <article class="dossier-card tilt-card reveal-right" style="--delay: 100ms">
       <div class="dossier-header">
         <div>
           <div class="dossier-code">{isEs ? 'DOSSIER #002 // MALLA DE RESILIENCIA CLOUD-NATIVE' : 'DOSSIER #002 // CLOUD-NATIVE RESILIENCE MESH'}</div>
@@ -299,7 +308,7 @@ const isEs = lang === 'es';
   </section>
 
   <!-- Advisory & Contact Section -->
-  <section id="contact" class="advisory-box reveal">
+  <section id="contact" class="advisory-box tilt-card reveal">
     <div class="docket-stamp">{isEs ? 'CONSULTORÍA EJECUTIVA & DUE DILIGENCE' : 'EXECUTIVE ADVISORY & DUE DILIGENCE'}</div>
     <h2>{t.contact.title}</h2>
     <p>{t.contact.lead}</p>
@@ -318,4 +327,209 @@ const isEs = lang === 'es';
       }
     </div>
   </section>
+
+  <script is:inline>
+    // 1. Cluster Topology Mesh (Canvas 2D, 60fps, Zero External Dependencies)
+    (function initClusterMesh() {
+      const canvas = document.getElementById('cluster-mesh');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      const hero = document.getElementById('home');
+      let width = 0;
+      let height = 0;
+      let dpr = window.devicePixelRatio || 1;
+      let nodes = [];
+      let animFrameId = null;
+      let isVisible = true;
+      const mouse = { x: -9999, y: -9999, active: false };
+
+      function resize() {
+        if (!hero) return;
+        const rect = hero.getBoundingClientRect();
+        width = rect.width;
+        height = rect.height;
+        dpr = window.devicePixelRatio || 1;
+
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.scale(dpr, dpr);
+
+        initNodes();
+      }
+
+      function initNodes() {
+        nodes = [];
+        const nodeCount = Math.min(48, Math.max(16, Math.floor((width * height) / 22000)));
+
+        for (let i = 0; i < nodeCount; i++) {
+          nodes.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.45,
+            vy: (Math.random() - 0.5) * 0.45,
+            radius: Math.random() * 1.5 + 1.0,
+            pulse: Math.random() * Math.PI * 2,
+            pulseSpeed: 0.02 + Math.random() * 0.02,
+            isTelemetryBeacon: i % 4 === 0,
+          });
+        }
+      }
+
+      function draw() {
+        if (!isVisible) return;
+        ctx.clearRect(0, 0, width, height);
+        const isLight = document.documentElement.classList.contains('light');
+        const maxDist = 145;
+        const maxDistSq = maxDist * maxDist;
+
+        // Draw connections between cluster nodes
+        for (let i = 0; i < nodes.length; i++) {
+          const a = nodes[i];
+          for (let j = i + 1; j < nodes.length; j++) {
+            const b = nodes[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const distSq = dx * dx + dy * dy;
+
+            if (distSq < maxDistSq) {
+              const dist = Math.sqrt(distSq);
+              const alpha = (1 - dist / maxDist) * (isLight ? 0.16 : 0.22);
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.strokeStyle = isLight
+                ? `rgba(217, 119, 6, ${alpha})`
+                : `rgba(245, 158, 11, ${alpha})`;
+              ctx.lineWidth = 0.75;
+              ctx.stroke();
+            }
+          }
+
+          // Connect to cursor within radius
+          if (mouse.active) {
+            const mdx = a.x - mouse.x;
+            const mdy = a.y - mouse.y;
+            const mDistSq = mdx * mdx + mdy * mdy;
+            if (mDistSq < 160 * 160) {
+              const mDist = Math.sqrt(mDistSq);
+              const mAlpha = (1 - mDist / 160) * 0.35;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.strokeStyle = isLight
+                ? `rgba(217, 119, 6, ${mAlpha})`
+                : `rgba(251, 191, 36, ${mAlpha})`;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+        }
+
+        // Draw individual nodes
+        for (let i = 0; i < nodes.length; i++) {
+          const n = nodes[i];
+          n.x += n.vx;
+          n.y += n.vy;
+          n.pulse += n.pulseSpeed;
+
+          if (n.x < 0 || n.x > width) n.vx *= -1;
+          if (n.y < 0 || n.y > height) n.vy *= -1;
+
+          const currentRadius = n.radius + Math.sin(n.pulse) * 0.4;
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, Math.max(0.8, currentRadius), 0, Math.PI * 2);
+
+          if (n.isTelemetryBeacon) {
+            ctx.fillStyle = isLight ? '#d97706' : '#fbbf24';
+            ctx.shadowColor = isLight ? 'rgba(217, 119, 6, 0.3)' : 'rgba(245, 158, 11, 0.6)';
+            ctx.shadowBlur = 6;
+          } else {
+            ctx.fillStyle = isLight ? 'rgba(180, 83, 9, 0.7)' : 'rgba(245, 158, 11, 0.75)';
+            ctx.shadowBlur = 0;
+          }
+
+          ctx.fill();
+        }
+
+        animFrameId = requestAnimationFrame(draw);
+      }
+
+      // Stop loop when hero is off-screen for 0 CPU idle consumption
+      if ('IntersectionObserver' in window && hero) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              isVisible = entry.isIntersecting;
+              if (isVisible && !animFrameId) {
+                animFrameId = requestAnimationFrame(draw);
+              } else if (!isVisible && animFrameId) {
+                cancelAnimationFrame(animFrameId);
+                animFrameId = null;
+              }
+            });
+          },
+          { threshold: 0.05 }
+        );
+        observer.observe(hero);
+      }
+
+      // Mouse interactivity over hero canvas
+      if (hero && window.matchMedia('(hover: hover)').matches) {
+        hero.addEventListener('mousemove', (e) => {
+          const rect = hero.getBoundingClientRect();
+          mouse.x = e.clientX - rect.left;
+          mouse.y = e.clientY - rect.top;
+          mouse.active = true;
+        });
+        hero.addEventListener('mouseleave', () => {
+          mouse.active = false;
+        });
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+      animFrameId = requestAnimationFrame(draw);
+    })();
+
+    // 2. 3D Tilt Card Perspective Effect (Zero-Dependency)
+    (function init3DTiltCards() {
+      if (!window.matchMedia('(hover: hover)').matches) return;
+      const tiltCards = document.querySelectorAll('.tilt-card');
+
+      tiltCards.forEach((card) => {
+        let isHovered = false;
+
+        card.addEventListener('mouseenter', () => {
+          isHovered = true;
+        });
+
+        card.addEventListener('mousemove', (e) => {
+          if (!isHovered) return;
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const cx = rect.width / 2;
+          const cy = rect.height / 2;
+          const rotateX = ((y - cy) / cy) * -5.5; // max 5.5 deg
+          const rotateY = ((x - cx) / cx) * 5.5; // max 5.5 deg
+
+          card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-2px)`;
+
+          const px = ((x / rect.width) * 100).toFixed(1);
+          const py = ((y / rect.height) * 100).toFixed(1);
+          card.style.setProperty('--mouse-x', `${px}%`);
+          card.style.setProperty('--mouse-y', `${py}%`);
+        });
+
+        card.addEventListener('mouseleave', () => {
+          isHovered = false;
+          card.style.transform = '';
+        });
+      });
+    })();
+  </script>
 </Base>
